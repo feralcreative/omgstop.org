@@ -1,0 +1,48 @@
+---
+layout: layouts/base.njk
+---
+
+<article class="peeve">
+  <header class="peeve__head">
+    {% if eyebrow %}<p class="peeve__eyebrow">{{ eyebrow }}</p>{% endif %}
+    <h1 class="peeve__title">{{ title }}</h1>
+    {% if summary %}<p class="peeve__summary">{{ summary }}</p>{% endif %}
+  </header>
+
+  {% if rule %}
+  <aside class="rule" aria-label="The short version">
+    <p class="rule__label">The short version</p>
+    <p class="rule__body">{{ rule | safe }}</p>
+  </aside>
+  {% endif %}
+
+  {# Examples live in front matter rather than the body so every peeve renders
+     them identically and writing a new one stays a copy-paste job. #}
+  {% if examples %}
+  <section class="examples" aria-label="Examples">
+    <ul class="examples__list">
+      {% for ex in examples %}
+      <li class="example">
+        <p class="example__line example__line--wrong">
+          <span class="example__mark" aria-hidden="true">✗</span>
+          <span class="visually-hidden">Wrong:</span>
+          <span class="example__text">{{ ex.wrong }}</span>
+        </p>
+        <p class="example__line example__line--right">
+          <span class="example__mark" aria-hidden="true">✓</span>
+          <span class="visually-hidden">Right:</span>
+          <span class="example__text">{{ ex.right }}</span>
+        </p>
+        {% if ex.note %}<p class="example__note">{{ ex.note | safe }}</p>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  <div class="prose">{{ content | safe }}</div>
+
+  <nav class="peeve__nav">
+    <a class="button" href="/">See the rest of them</a>
+  </nav>
+</article>

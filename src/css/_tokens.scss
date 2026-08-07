@@ -1,0 +1,42 @@
+// Design tokens. Sass variables here feed the CSS custom properties declared in
+// style.scss—nothing in this file emits CSS on its own.
+
+//@ Breakpoints
+$bp-sm: 30rem; // 480px
+$bp-md: 48rem; // 768px
+$bp-lg: 64rem; // 1024px
+
+//@ Palette: light
+$light-bg: #faf9f6;
+$light-surface: #ffffff;
+$light-text: #17171a;
+$light-muted: #6a655e;
+$light-border: #e4e0d8;
+$light-accent: #d92d20; // the "STOP" red
+$light-wrong: #b42318;
+$light-right: #16794b;
+$light-shadow: rgba(23, 23, 26, 0.08);
+
+//@ Palette: dark
+$dark-bg: #121214;
+$dark-surface: #1b1b1f;
+$dark-text: #ecebe7;
+$dark-muted: #9b968e;
+$dark-border: #2f2f35;
+$dark-accent: #ff6152;
+$dark-wrong: #ff8577;
+$dark-right: #56d39a;
+$dark-shadow: rgba(0, 0, 0, 0.4);
+
+//@ Type stacks
+$font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+  Arial, sans-serif;
+$font-prose: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino,
+  Georgia, "Times New Roman", serif;
+$font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+  "Liberation Mono", monospace;
+
+//@ Spacing / layout
+$measure: 34rem; // comfortable reading width
+$gutter: 1.5rem;
+$radius: 0.5rem;

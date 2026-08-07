@@ -1,0 +1,21 @@
+{
+  "name": "omgstop.org",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A small, foul-mouthed reference for things people keep getting wrong. Send someone a link instead of an argument.",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "eleventy",
+    "dev": "eleventy --serve --port=8066",
+    "clean": "rm -rf _site",
+    "deploy": "./utils/deploy/prod.sh"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "sass": "^1.102.0"
+  }
+}

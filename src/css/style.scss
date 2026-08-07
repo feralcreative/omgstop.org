@@ -1,0 +1,555 @@
+@use "tokens" as t;
+
+/* ---------------------------------------------------------------------------
+   Theme
+   Colors are declared once as custom properties so the dark override only has
+   to restate values, not selectors.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --bg: #{t.$light-bg};
+  --surface: #{t.$light-surface};
+  --text: #{t.$light-text};
+  --muted: #{t.$light-muted};
+  --border: #{t.$light-border};
+  --accent: #{t.$light-accent};
+  --wrong: #{t.$light-wrong};
+  --right: #{t.$light-right};
+  --shadow: #{t.$light-shadow};
+
+  --font-display: #{t.$font-display};
+  --font-prose: #{t.$font-prose};
+  --font-mono: #{t.$font-mono};
+
+  --measure: #{t.$measure};
+  --gutter: #{t.$gutter};
+  --radius: #{t.$radius};
+
+  color-scheme: light dark;
+}
+
+//@ Dark theme
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #{t.$dark-bg};
+    --surface: #{t.$dark-surface};
+    --text: #{t.$dark-text};
+    --muted: #{t.$dark-muted};
+    --border: #{t.$dark-border};
+    --accent: #{t.$dark-accent};
+    --wrong: #{t.$dark-wrong};
+    --right: #{t.$dark-right};
+    --shadow: #{t.$dark-shadow};
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reset / base
+   --------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0 var(--gutter) 4rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-prose);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+//@ Comfortable reading size on anything wider than a phone
+@media (min-width: t.$bp-md) {
+  body {
+    font-size: 1.125rem;
+  }
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 0.09em;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip-link:focus {
+  left: var(--gutter);
+  top: 0.5rem;
+  z-index: 10;
+  padding: 0.5rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* ---------------------------------------------------------------------------
+   Masthead + colophon
+   --------------------------------------------------------------------------- */
+
+.masthead {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 2.5rem 0 0;
+}
+
+.masthead__logo {
+  display: inline-flex;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.masthead__omg,
+.masthead__stop {
+  padding: 0.35rem 0.6rem;
+}
+
+.masthead__omg {
+  color: var(--muted);
+  background: var(--surface);
+}
+
+.masthead__stop {
+  color: #fff;
+  background: var(--accent);
+}
+
+.masthead__logo:hover {
+  color: inherit;
+  border-color: var(--accent);
+}
+
+.colophon {
+  max-width: var(--measure);
+  margin: 4rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.colophon p {
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Peeve page
+   --------------------------------------------------------------------------- */
+
+.peeve {
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+
+.peeve__head {
+  padding: 3rem 0 0;
+}
+
+.peeve__eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.peeve__title {
+  margin: 0;
+  font-size: clamp(2.25rem, 9vw, 3.5rem);
+}
+
+.peeve__summary {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 1.1875rem;
+  text-wrap: pretty;
+}
+
+/* The short version—the only part most people will read. */
+.rule {
+  margin: 2.5rem 0;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px var(--shadow);
+}
+
+.rule__label {
+  margin: 0 0 0.4rem;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.rule__body {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+.rule__body em {
+  color: var(--accent);
+  font-style: normal;
+  font-weight: 800;
+}
+
+/* ---------------------------------------------------------------------------
+   Wrong / right example pairs
+   --------------------------------------------------------------------------- */
+
+.examples {
+  margin: 2.5rem 0;
+}
+
+.examples__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.example + .example {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.example__line {
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.example__line + .example__line {
+  margin-top: 0.3rem;
+}
+
+.example__mark {
+  flex: none;
+  width: 1em;
+  font-weight: 700;
+}
+
+.example__line--wrong {
+  color: var(--muted);
+}
+
+.example__line--wrong .example__mark {
+  color: var(--wrong);
+}
+
+.example__line--wrong .example__text {
+  text-decoration: line-through;
+  text-decoration-color: var(--wrong);
+  text-decoration-thickness: 0.08em;
+}
+
+.example__line--right {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.example__line--right .example__mark {
+  color: var(--right);
+}
+
+.example__note {
+  margin: 0.55rem 0 0 1.6rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+/* ---------------------------------------------------------------------------
+   Prose
+   --------------------------------------------------------------------------- */
+
+.prose {
+  text-wrap: pretty;
+}
+
+.prose > *:first-child {
+  margin-top: 0;
+}
+
+.prose p {
+  margin: 1.25rem 0;
+}
+
+.prose h2 {
+  margin: 2.75rem 0 0.75rem;
+  font-size: 1.375rem;
+}
+
+.prose h3 {
+  margin: 2rem 0 0.5rem;
+  font-size: 1.0625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.prose ul,
+.prose ol {
+  margin: 1.25rem 0;
+  padding-left: 1.35rem;
+}
+
+.prose li {
+  margin: 0.4rem 0;
+}
+
+.prose strong {
+  font-weight: 700;
+}
+
+.prose code {
+  padding: 0.1em 0.35em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+.prose blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--border);
+  color: var(--muted);
+  font-style: italic;
+}
+
+.prose hr {
+  margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* ---------------------------------------------------------------------------
+   Buttons + navigation
+   --------------------------------------------------------------------------- */
+
+.peeve__nav {
+  margin-top: 3rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.button:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------------
+   Index
+   --------------------------------------------------------------------------- */
+
+.home {
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+
+.home__head {
+  padding: 3rem 0 0;
+}
+
+.home__title {
+  margin: 0;
+  font-size: clamp(2.5rem, 11vw, 4rem);
+  line-height: 0.95;
+}
+
+.home__title span {
+  color: var(--accent);
+}
+
+.home__tagline {
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-size: 1.1875rem;
+  text-wrap: pretty;
+}
+
+.peeve-list {
+  margin: 2.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.peeve-list__item {
+  border-top: 1px solid var(--border);
+}
+
+.peeve-list__item:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.peeve-list__link {
+  display: block;
+  padding: 1.25rem 0;
+  text-decoration: none;
+}
+
+.peeve-list__title {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.peeve-list__slug {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.peeve-list__summary {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.peeve-list__link:hover .peeve-list__title {
+  color: var(--accent);
+}
+
+.home__empty {
+  margin: 2.5rem 0;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------------------
+   404
+   --------------------------------------------------------------------------- */
+
+.notfound {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 4rem 0 0;
+}
+
+.notfound__code {
+  margin: 0;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.notfound__title {
+  margin: 0.75rem 0 0;
+  font-size: clamp(2rem, 8vw, 3rem);
+}
+
+/* ---------------------------------------------------------------------------
+   Print—people do print things
+   --------------------------------------------------------------------------- */
+
+//@ Print
+@media print {
+  body {
+    padding: 0;
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+
+  .masthead,
+  .peeve__nav,
+  .skip-link {
+    display: none;
+  }
+
+  .rule {
+    box-shadow: none;
+  }
+}

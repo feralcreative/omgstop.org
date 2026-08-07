@@ -1,0 +1,5 @@
+{
+  "layout": "layouts/peeve.njk",
+  "tags": "peeves",
+  "permalink": "/{{ page.fileSlug }}/index.html"
+}

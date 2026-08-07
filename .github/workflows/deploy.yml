@@ -1,0 +1,229 @@
+name: Deploy to production
+
+# Mirrors utils/deploy/deploy.sh: build with Eleventy, rsync _site/ over SSH to
+# the Synology NAS, then purge Cloudflare. Target and exclude rules are read
+# from the same files the local script uses (.vscode/sftp.json,
+# utils/deploy/ignore.json) so the two paths to production can't drift apart.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Preview the transfer without uploading anything"
+        type: boolean
+        default: false
+      max_delete:
+        description: "Abort if the deploy would remove more than this many files"
+        type: string
+        default: "50"
+
+# Never let two deploys rsync the same directory at once. Queue instead of
+# cancelling—a half-finished rsync that gets killed leaves prod inconsistent.
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: rsync to Synology
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+
+      - name: Resolve deploy target
+        id: target
+        run: |
+          set -euo pipefail
+          SFTP=".vscode/sftp.json"
+          [ -f "$SFTP" ] || { echo "::error::Missing $SFTP—cannot resolve the deploy target."; exit 1; }
+
+          HOST=$(jq -re '.host'       "$SFTP")
+          USER=$(jq -re '.username'   "$SFTP")
+          DEST=$(jq -re '.remotePath' "$SFTP")
+          PORT=$(jq -r  '.port // 22' "$SFTP")
+
+          # Keep the hostname and username out of the build log.
+          echo "::add-mask::$HOST"
+          echo "::add-mask::$USER"
+
+          {
+            echo "host=$HOST"
+            echo "user=$USER"
+            echo "dest=$DEST"
+            echo "port=$PORT"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: |
+          set -euo pipefail
+          # _site/ is gitignored, so the checkout never contains it. Everything
+          # that ships is produced here.
+          npm run build
+
+      - name: Sanity-check the payload
+        run: |
+          set -euo pipefail
+          # Cheap insurance against rsync --delete running against a broken or
+          # empty build and taking the live site with it.
+          for f in index.html 404.html css/style.css .htaccess; do
+            [ -s "_site/$f" ] || { echo "::error::Expected _site/$f to exist and be non-empty—refusing to deploy."; exit 1; }
+          done
+          echo "Payload: $(find _site -type f | wc -l) files, $(find _site -name index.html | wc -l) page(s)"
+
+      - name: Assemble rsync exclude list
+        run: |
+          set -euo pipefail
+          IGNORE="utils/deploy/ignore.json"
+          [ -f "$IGNORE" ] || { echo "::error::Missing $IGNORE"; exit 1; }
+
+          jq -re '.patterns[]'  "$IGNORE" >  /tmp/rsync-excludes
+          jq -r  '.protect[]?'  "$IGNORE" >> /tmp/rsync-excludes
+
+          echo "Excluding $(wc -l < /tmp/rsync-excludes) patterns:"
+          sed 's/^/  /' /tmp/rsync-excludes
+
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          HOST: ${{ steps.target.outputs.host }}
+          PORT: ${{ steps.target.outputs.port }}
+        run: |
+          set -euo pipefail
+          [ -n "$SSH_PRIVATE_KEY" ] || { echo "::error::Repository secret SSH_PRIVATE_KEY is not set. See docs/DEPLOYMENT.md."; exit 1; }
+
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          if [ -n "$SSH_KNOWN_HOSTS" ]; then
+            printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            echo "::warning::SSH_KNOWN_HOSTS is not set—accepting whatever host key the server offers (trust on first use). See docs/DEPLOYMENT.md to pin it."
+            ssh-keyscan -p "$PORT" -H "$HOST" > ~/.ssh/known_hosts 2>/dev/null
+          fi
+          chmod 600 ~/.ssh/known_hosts
+          [ -s ~/.ssh/known_hosts ] || { echo "::error::known_hosts is empty—the NAS did not answer on port $PORT. Confirm it is reachable from the public internet."; exit 1; }
+
+      - name: Deploy
+        id: rsync
+        env:
+          HOST: ${{ steps.target.outputs.host }}
+          USER: ${{ steps.target.outputs.user }}
+          DEST: ${{ steps.target.outputs.dest }}
+          PORT: ${{ steps.target.outputs.port }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          MAX_DELETE: ${{ inputs.max_delete || '50' }}
+        run: |
+          set -euo pipefail
+
+          # --checksum, not the default size+mtime check: every CI build writes
+          # fresh mtimes, so without it rsync considers every file changed and
+          # re-uploads the whole site on every single push.
+          # --chmod normalizes modes on the receiver. Without it, rsync -a
+          # faithfully copies local perms, and a 700 directory or 600 file
+          # becomes a 403 on Web Station—it cannot traverse or read them.
+          ARGS=(
+            -avz
+            --chmod=D755,F644
+            --checksum
+            --delete
+            --delete-after
+            --max-delete="$MAX_DELETE"
+            --stats
+            --human-readable
+            --exclude-from=/tmp/rsync-excludes
+            -e "ssh -i $HOME/.ssh/deploy_key -p $PORT -o StrictHostKeyChecking=yes -o BatchMode=yes"
+          )
+          [ "$DRY_RUN" = "true" ] && ARGS+=(--dry-run) && echo "DRY RUN—nothing will be uploaded"
+
+          # Trailing slash on the source is load-bearing: it syncs the CONTENTS
+          # of _site/ into DEST rather than creating DEST/_site/.
+          set +e
+          rsync "${ARGS[@]}" ./_site/ "${USER}@${HOST}:${DEST}/"
+          CODE=$?
+          set -e
+
+          if [ "$CODE" -eq 25 ]; then
+            echo "::error::rsync hit --max-delete=$MAX_DELETE. That many removals usually means the build is wrong, not that you deleted $MAX_DELETE files on purpose. Re-run via workflow_dispatch with a higher max_delete if this is intentional."
+            exit 25
+          fi
+          [ "$CODE" -eq 0 ] || { echo "::error::rsync failed with exit code $CODE"; exit "$CODE"; }
+
+      - name: Normalize remote permissions
+        # --chmod covers what rsync transfers, but it cannot touch excluded
+        # paths, and a mode-600 file or mode-700 directory is a 403 on Web
+        # Station. This pass catches those. Only paths that are actually wrong
+        # get changed.
+        if: ${{ success() && inputs.dry_run != true }}
+        env:
+          HOST: ${{ steps.target.outputs.host }}
+          USER: ${{ steps.target.outputs.user }}
+          DEST: ${{ steps.target.outputs.dest }}
+          PORT: ${{ steps.target.outputs.port }}
+        run: |
+          set -euo pipefail
+          ssh -i "$HOME/.ssh/deploy_key" -p "$PORT" -o StrictHostKeyChecking=yes -o BatchMode=yes \
+            "${USER}@${HOST}" \
+            "echo \"dirs fixed:  \$(find '$DEST' -type d ! -perm -o=x -exec chmod 755 {} + -print 2>/dev/null | wc -l)\";
+             echo \"files fixed: \$(find '$DEST' -type f ! -perm -o=r -exec chmod 644 {} + -print 2>/dev/null | wc -l)\""
+
+      - name: Purge Cloudflare cache
+        # Non-fatal, and pointless on a dry run.
+        if: ${{ success() && inputs.dry_run != true }}
+        continue-on-error: true
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ZONE: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CF_TOKEN:-}" ] || [ -z "${CF_ZONE:-}" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN / CLOUDFLARE_ZONE_ID not set—skipping cache purge."
+            exit 0
+          fi
+          RESPONSE=$(curl -sS -X POST \
+            "https://api.cloudflare.com/client/v4/zones/${CF_ZONE}/purge_cache" \
+            -H "Authorization: Bearer ${CF_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}')
+          if echo "$RESPONSE" | jq -e '.success == true' >/dev/null 2>&1; then
+            echo "Cloudflare cache purged"
+          else
+            echo "::warning::Cloudflare purge failed: $RESPONSE"
+          fi
+
+      - name: Summary
+        if: always()
+        env:
+          DEST: ${{ steps.target.outputs.dest }}
+        run: |
+          {
+            echo "### omgstop.org deploy"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Result | ${{ job.status }} |"
+            echo "| URL | https://omgstop.org |"
+            echo "| Remote path | \`${DEST}\` |"
+            echo "| Commit | \`${GITHUB_SHA:0:7}\` on \`${GITHUB_REF_NAME}\` |"
+            echo "| Mode | ${{ inputs.dry_run == true && 'dry run' || 'live' }} |"
+          } >> "$GITHUB_STEP_SUMMARY"

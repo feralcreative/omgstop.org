@@ -1,0 +1,6 @@
+{
+  "description": "Rsync exclude patterns used by utils/deploy/deploy.sh and .github/workflows/deploy.yml. NOTE: unlike onlyziads.com, this project rsyncs the BUILD OUTPUT (_site/), not the repo root—Eleventy already decides what ships, so this list only has to catch cruft that lands in _site by accident. Patterns without a leading slash match the basename at any depth; a trailing slash restricts to directories. .htaccess is intentionally NOT excluded—it is meant to ship.",
+  "patterns": [".DS_Store", "._*", "*.map", "Thumbs.db"],
+  "protect_description": "Extra excludes applied ONLY by the GitHub Actions deploy, never by deploy.sh. These are paths that live on the server but are not produced by the build, so a CI runner never has them. Because rsync's --delete skips excluded paths, listing them here stops CI from deleting them. Removing an entry means the next CI deploy WIPES those files from the server. This array is currently empty because the whole site is generated—if you ever hand-place something in /volume1/web/omgstop.org (a verification file, a large asset), add it here first.",
+  "protect": []
+}

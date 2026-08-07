@@ -1,0 +1,53 @@
+# omgstop.org—Apache config for Synology Web Station.
+#
+# Web Station can run a virtual host on either Apache or Nginx. This file is
+# read ONLY by Apache. If the host is configured for Nginx, DSM ignores it
+# entirely and the equivalent settings have to go in the Nginx
+# config—see docs/DEPLOYMENT.md.
+
+Options -Indexes -MultiViews
+
+DirectoryIndex index.html
+
+ErrorDocument 404 /404.html
+
+# /less and /less/ should both work. Apache already 301s /less to /less/ via
+# mod_dir; this only adds the missing-trailing-slash case for requests that
+# arrive without one when DirectorySlash is off in a parent config.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Never rewrite something that already exists on disk.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # /less  ->  /less/index.html
+  RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+  RewriteRule ^([^/]+)/?$ /$1/index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain application/xml image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # HTML changes every deploy and is tiny—don't let it get pinned.
+  ExpiresByType text/html "access plus 0 seconds"
+
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType text/plain "access plus 1 day"
+</IfModule>
+
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
