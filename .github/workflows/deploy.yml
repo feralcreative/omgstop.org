@@ -84,7 +84,7 @@ jobs:
           set -euo pipefail
           # Cheap insurance against rsync --delete running against a broken or
           # empty build and taking the live site with it.
-          for f in index.html 404.html css/style.css .htaccess; do
+          for f in index.html 404.html css/style.css; do
             [ -s "_site/$f" ] || { echo "::error::Expected _site/$f to exist and be non-empty—refusing to deploy."; exit 1; }
           done
           echo "Payload: $(find _site -type f | wc -l) files, $(find _site -name index.html | wc -l) page(s)"

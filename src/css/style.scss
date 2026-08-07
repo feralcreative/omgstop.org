@@ -321,6 +321,20 @@ a:hover {
   color: var(--right);
 }
 
+/* Fallacy pages quote whole arguments rather than misspelled phrases. Striking
+   a two-line quotation through makes it genuinely hard to read, and the point
+   isn't that the words are wrong — it's that the reasoning is. Keep the ✗ and
+   the muted color, drop the line, and set it in the prose face since it is
+   speech rather than a specimen. */
+.peeve--argument .example__line--wrong .example__text {
+  text-decoration: none;
+}
+
+.peeve--argument .example__line {
+  font-family: var(--font-prose);
+  font-size: 1rem;
+}
+
 .example__note {
   margin: 0.55rem 0 0 1.6rem;
   color: var(--muted);
@@ -399,6 +413,18 @@ a:hover {
    Buttons + navigation
    --------------------------------------------------------------------------- */
 
+/* The sign-off line. Deliberately the last thing on the page. */
+.peeve__snark {
+  margin: 2.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
 .peeve__nav {
   margin-top: 3rem;
 }
@@ -451,8 +477,22 @@ a:hover {
   text-wrap: pretty;
 }
 
+.group {
+  margin-top: 3rem;
+}
+
+.group__name {
+  margin: 0 0 0.25rem;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .peeve-list {
-  margin: 2.5rem 0 0;
+  margin: 0.75rem 0 0;
   padding: 0;
   list-style: none;
 }

@@ -1,9 +1,12 @@
 ---
 title: "less vs. fewer"
-eyebrow: Grammar
+category: Grammar
 order: 1
 summary: "One is for things you count. The other is for things you measure. You picked wrong."
 rule: "If you can count them, it's <em>fewer</em>. If you can only measure it, it's <em>less</em>."
+snark: "Please do this fewer."
+aliases:
+  - fewer
 examples:
   - wrong: "We need less meetings."
     right: "We need fewer meetings."

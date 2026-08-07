@@ -10,23 +10,28 @@ eleventyExcludeFromCollections: true
     <p class="home__tagline">{{ site.tagline }}</p>
   </header>
 
-  {% set peeves = collections.peeves %}
-  {% if peeves.length %}
-  <ul class="peeve-list">
-    {% for peeve in peeves %}
-    <li class="peeve-list__item">
-      <a class="peeve-list__link" href="{{ peeve.url }}">
-        <h2 class="peeve-list__title">
-          {{ peeve.data.title }}
-          <span class="peeve-list__slug">omgstop.org{{ peeve.url | prettyUrl }}</span>
-        </h2>
-        {% if peeve.data.summary %}
-        <p class="peeve-list__summary">{{ peeve.data.summary }}</p>
-        {% endif %}
-      </a>
-    </li>
+  {% set groups = collections.peevesByCategory %}
+  {% if groups.length %}
+    {% for group in groups %}
+    <section class="group">
+      <h2 class="group__name">{{ group.name }}</h2>
+      <ul class="peeve-list">
+        {% for peeve in group.items %}
+        <li class="peeve-list__item">
+          <a class="peeve-list__link" href="{{ peeve.url }}">
+            <h3 class="peeve-list__title">
+              {{ peeve.data.title }}
+              <span class="peeve-list__slug">omgstop.org{{ peeve.url | prettyUrl }}</span>
+            </h3>
+            {% if peeve.data.summary %}
+            <p class="peeve-list__summary">{{ peeve.data.summary }}</p>
+            {% endif %}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
     {% endfor %}
-  </ul>
   {% else %}
   <p class="home__empty">Nothing yet. Give it a week.</p>
   {% endif %}

@@ -37,25 +37,52 @@ That has one consequence worth internalizing: **anything on the server that the 
 
 <!--| PAGE-BREAK -->
 
+## How the NAS actually serves things
+
+Worth knowing before you change anything, because there are two separate patterns already running on it.
+
+| Pattern | Used by | Mechanism |
+| --- | --- | --- |
+| Static sites | `feralcreative.dev`, `move.ezzat.com`, `moveawayfromtheblacks.com`, `securesite.dev` | Web Station virtual host, **Nginx** backend, doc root under `/volume1/web/<domain>` |
+| App sites | `fuckpicrights.com`, `househunt.ezzat.com`, `ziad.af`, `routeloop.app`, ~14 more | Docker container on a local port, plus a DSM **Reverse Proxy** rule pointing the hostname at it |
+
+omgstop.org is the first pattern: a Web Station virtual host over `/volume1/web/omgstop.org`.
+
+Traffic gets in through **Cloudflare Tunnel**, not a forwarded HTTP port. `cloudflared` runs on the NAS with a token-based config, which means the ingress rules (public hostname → local service) live in the Cloudflare Zero Trust dashboard, not in any file on the NAS. Adding a site therefore takes **two** steps, not one: the Web Station virtual host, and a public hostname on the tunnel.
+
 ## One-time setup
 
-Five things, in order. Nothing works until all five are done.
+### 1. Register the domain
 
-### 1. Point the domain at the NAS
+`omgstop.org` **is not registered.** WHOIS returns "Domain not found" and RDAP returns 404, so there is no DNS to configure and no Cloudflare zone to add a record to. Everything below is blocked on this.
 
-`omgstop.org` currently resolves to nothing. Add the DNS record (Cloudflare, presumably, to match onlyziads.com) pointing at the NAS. If you proxy it through Cloudflare, the origin still needs a real certificate or a Cloudflare Tunnel—Web Station's self-signed cert will fail a Full (strict) origin check.
+### 2. Web root (done)
 
-### 2. Create the web root and the virtual host in DSM
+`/volume1/web/omgstop.org` exists, is `755 ziad:users`, and currently holds a build of the site with `644` files. Nothing to do unless you want it somewhere else, in which case change `remotePath` in `.vscode/sftp.json` and nowhere else.
 
-The deploy target is `/volume1/web/omgstop.org`. Create it, then add a Web Station virtual host bound to `omgstop.org` with that as its document root.
+### 3. Create the Web Station virtual host
+
+This is a DSM operation and cannot be scripted over SSH—the configs in `/usr/local/etc/nginx/sites-enabled/` are generated from DSM's own database and get overwritten, and `ziad` has no passwordless sudo.
+
+In **Web Station → Web Service**, create a static website with `/volume1/web/omgstop.org` as its document root, then in **Web Portal** bind it to the hostname `omgstop.org`.
+
+**Backend server: Nginx**, matching your other static sites. The behavior an `.htaccess` would have given on Apache comes from `utils/deploy/nginx-user.conf` instead, installed in the next step. No Apache config ships with this project.
+
+### 4. Install the Nginx vhost config
 
 ```bash
-ssh -p 33725 ziad@nas.feralcreative.co "mkdir -p /volume1/web/omgstop.org"
+./utils/deploy/install-nginx-conf.sh
 ```
 
-**Pick Apache, not Nginx, in the virtual host settings**—or read the Nginx note below before you pick Nginx. `src/static/.htaccess` handles clean URLs, the 404 page, caching, and security headers, and it is read only by Apache.
+It finds the vhost by its document root, drops `nginx-user.conf` into the `user.conf` hook Web Station already includes, validates with `nginx -t`, and reloads. The conf tree is root-owned, so it opens an interactive SSH session and asks for your DSM password once. `--dry-run` locates the vhost and changes nothing.
 
-### 3. Create a dedicated deploy key
+Without this the site still works, but you get DSM's default 404 page, no security or cache headers, and a 301 hop on `/less`.
+
+### 5. Add the tunnel hostname
+
+In the Cloudflare Zero Trust dashboard, under the tunnel serving this NAS, add a public hostname for `omgstop.org` pointing at `http://localhost:80`. Cloudflare creates the DNS record itself, so there is no separate A/CNAME step.
+
+### 6. Create a dedicated deploy key
 
 Never put your personal key in a GitHub secret. A separate keypair can be revoked on its own.
 
@@ -69,7 +96,7 @@ ssh-copy-id -i ~/.ssh/omgstop_deploy.pub -p 33725 ziad@nas.feralcreative.co
 
 Synology is fussy about SSH key auth. If `ssh-copy-id` succeeds but key auth still doesn't work, check on the NAS that `/volume1/homes/ziad` is `755`, `~/.ssh` is `700`, and `~/.ssh/authorized_keys` is `600`, and that **User Home Service** is enabled in Control Panel. Group-writable home directories make sshd silently refuse the key.
 
-### 4. Set the repository secrets
+### 7. Set the repository secrets
 
 Each command pipes its value in on stdin, so no secret reaches your shell history. Run them one at a time.
 
@@ -96,7 +123,7 @@ grep -E '^CLOUDFLARE_ZONE_ID=' .env | cut -d= -f2- | tr -d '"' | gh secret set C
 | `CLOUDFLARE_API_TOKEN` | no | cache purge skipped, deploy still succeeds |
 | `CLOUDFLARE_ZONE_ID` | no | cache purge skipped, deploy still succeeds |
 
-### 5. Dry-run before trusting it
+### 8. Dry-run before trusting it
 
 From the Actions tab, run the workflow manually with `dry_run` checked. Read the file list. Confirm the deletions are all things you meant to delete. Only then push for real.
 
@@ -104,45 +131,48 @@ From the Actions tab, run the workflow manually with `dry_run` checked. Read the
 
 ## The reachability assumption
 
-CI reaches the NAS by SSHing straight to `nas.feralcreative.co:33725` from a GitHub-hosted runner. That requires port 33725 to be forwarded and reachable from the public internet—not just from your LAN or over Tailscale.
+CI reaches the NAS by SSHing straight to `nas.feralcreative.co:33725` from a GitHub-hosted runner. That requires port 33725 to be forwarded and reachable from the public internet—not just from your LAN.
 
-`nas.feralcreative.co` resolves through `feralcreative.synology.me` to a public IP, so the DNS half is fine. Whether the port answers from outside has not been tested from here. If the `Configure SSH` step fails with an empty `known_hosts`, that is what happened, and there are three ways out:
+**This is still unverified, and there is now reason to doubt it.** SSH to that host and port works from your Mac, but your Mac is at `192.168.1.75` and the NAS is at `192.168.1.3`—same subnet, so that connection proves only that NAT hairpin works, not that anything outside can get in. The stronger signal is that HTTP ingress runs entirely over Cloudflare Tunnel, which is what people use specifically so they don't have to forward ports.
+
+If the `Configure SSH` step fails with an empty `known_hosts`, that is what happened, and there are three ways out:
 
 1. Forward the port (simplest, and it is already how the local script works).
 2. Put a self-hosted GitHub runner on the NAS, so nothing inbound is needed. The workflow becomes `runs-on: self-hosted` and the rsync becomes a local copy.
 3. Route CI through a Cloudflare Tunnel with an Access service token.
 
-Option 1 unless you'd rather not open the port.
+Given the tunnel is already there, option 2 is probably the better fit for this NAS: a self-hosted runner needs nothing inbound at all, and the deploy becomes a local file copy. Option 1 is still the least work if the port already happens to be open.
 
-## Apache vs Nginx on Web Station
+## The Nginx config
 
-`src/static/.htaccess` is read **only** by Apache. If the virtual host is set to Nginx, DSM ignores the file completely and you silently lose clean URLs, the custom 404, cache headers, and the security headers. The site still works; it just quietly stops doing four things.
+`utils/deploy/nginx-user.conf` is the whole of it. Web Station's generated server block ends with `include /usr/local/etc/nginx/conf.d/<service-uuid>/user.conf*;`—a glob, so the file is optional and the vhost works without it. `install-nginx-conf.sh` fills that slot.
 
-If you'd rather run Nginx, the equivalent goes in the virtual host's Nginx config:
+Two things in it are load-bearing and non-obvious, both found by testing rather than reasoning.
 
-```nginx
-index index.html;
-error_page 404 /404.html;
+### `try_files $uri $uri/index.html $uri/ =404;`
 
-location / {
-  try_files $uri $uri/ $uri.html =404;
-}
+The idiomatic `try_files $uri $uri/ =404;` **does not** serve `/less` directly. The `$uri/` test matches the directory, and Nginx answers with a **301 to `/less/`**—a wasted round trip on the exact URL the entire site exists to be typed into. Naming `index.html` explicitly, ahead of the directory test, serves it in place:
 
-add_header X-Content-Type-Options "nosniff" always;
-add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+| Request | `$uri $uri/ =404` | `$uri $uri/index.html $uri/ =404` |
+| --- | --- | --- |
+| `/less` | 301 → `/less/` | **200** |
+| `/less/` | 200 | 200 |
+| `/` | 200 | 200 |
+| `/nope` | 404 | 404 |
 
-location ~* \.html$ {
-  expires -1;
-}
+### `expires -1;` at server level, not in a `location`
 
-location ~* \.(css|svg)$ {
-  expires 7d;
-}
-```
+HTML reached through the clean-URL rule is served from inside `location /`, so a `location ~* \.html$` block never matches it and the pages would silently inherit whatever the asset cache rule said. Setting the no-cache default at server level and opting assets back in with `expires` is the only arrangement that holds.
+
+That also explains why the asset blocks use **only** `expires` and never `add_header`: a `location` that declares its own `add_header` discards every inherited one, which would quietly strip the three security headers from CSS and SVG. Verified—assets come back with `Cache-Control: max-age=604800` *and* all three headers intact.
+
+### How this was verified
+
+Rather than reload it into the live Nginx and find out, the config was tested in a throwaway `nginx:alpine` container on the NAS, bound to `127.0.0.1:18099`, with the real `/volume1/web/omgstop.org` mounted read-only and a server block mimicking Web Station's. Every row of the table above, plus the header behavior, came from that. The container and its staging directory were removed; the `nginx:alpine` image (62 MB) is still cached if you want to repeat it.
 
 ## URLs
 
-Every entry builds to a directory with an `index.html`, so `omgstop.org/less` and `omgstop.org/less/` both work. Without the `.htaccess` rewrite, the no-slash form takes a 301 redirect first—correct either way, just one extra hop.
+Every entry builds to a directory with an `index.html`, so `omgstop.org/less` and `omgstop.org/less/` both work. With the Nginx config installed, both are a direct 200. Without it, the no-slash form takes a 301 first—correct either way, just one extra hop.
 
 <!--| PAGE-BREAK -->
 
@@ -181,7 +211,7 @@ Two rsyncs into one directory corrupt each other. Queueing is better than cancel
 | `Host key verification failed` | `SSH_KNOWN_HOSTS` is stale. Re-run the `ssh-keyscan` command and update the secret |
 | rsync exits 25 | `--max-delete` fired. Nothing beyond the cap was removed. Read what it wanted to delete before raising the limit |
 | Scattered 403s on files that exist | Permissions. The normalize step should have caught it—check that it ran and what it reported |
-| `/less` 404s but `/less/` works | The virtual host is on Nginx, so `.htaccess` is being ignored. See the Nginx config above |
+| `/less` 301s instead of 200 | The Nginx `user.conf` is not installed. Run `./utils/deploy/install-nginx-conf.sh` |
 | Site loads unstyled | The build step failed, or `*.css` ended up in `patterns[]` in `ignore.json` |
 | A file never deploys | Check it against **both** arrays in `ignore.json`. `protect[]` blocks uploads as well as deletions |
 | Stale content after a deploy | Cloudflare purge was skipped because its two secrets aren't set. Check the workflow log for the warning |

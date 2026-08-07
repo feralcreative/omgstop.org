@@ -36,7 +36,7 @@ src/
   css/
     _tokens.scss           colors, type stacks, breakpoints
     style.scss             everything else
-  static/                  copied to the web root verbatim (.htaccess, favicon, robots.txt)
+  static/                  copied to the web root verbatim (favicon, robots.txt)
   index.njk                the list of entries
   404.njk
   sitemap.njk

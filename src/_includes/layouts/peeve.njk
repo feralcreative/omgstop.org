@@ -2,9 +2,11 @@
 layout: layouts/base.njk
 ---
 
-<article class="peeve">
+{# Fallacy examples are quoted arguments, not misspellings, so they get a
+   different treatment for the "wrong" line — see .peeve--argument in the CSS. #}
+<article class="peeve{% if category == 'Logical fallacies' %} peeve--argument{% endif %}">
   <header class="peeve__head">
-    {% if eyebrow %}<p class="peeve__eyebrow">{{ eyebrow }}</p>{% endif %}
+    {% if eyebrow or category %}<p class="peeve__eyebrow">{{ eyebrow or category }}</p>{% endif %}
     <h1 class="peeve__title">{{ title }}</h1>
     {% if summary %}<p class="peeve__summary">{{ summary }}</p>{% endif %}
   </header>
@@ -33,7 +35,7 @@ layout: layouts/base.njk
           <span class="visually-hidden">Right:</span>
           <span class="example__text">{{ ex.right }}</span>
         </p>
-        {% if ex.note %}<p class="example__note">{{ ex.note | safe }}</p>{% endif %}
+        {% if ex.note %}<p class="example__note">{{ ex.note | mdInline | safe }}</p>{% endif %}
       </li>
       {% endfor %}
     </ul>
@@ -41,6 +43,8 @@ layout: layouts/base.njk
   {% endif %}
 
   <div class="prose">{{ content | safe }}</div>
+
+  {% if snark %}<p class="peeve__snark">{{ snark }}</p>{% endif %}
 
   <nav class="peeve__nav">
     <a class="button" href="/">See the rest of them</a>

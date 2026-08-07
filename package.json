@@ -9,13 +9,15 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "eleventy",
+    "build": "node utils/gen-peeve-list.js && eleventy",
     "dev": "eleventy --serve --port=8066",
     "clean": "rm -rf _site",
-    "deploy": "./utils/deploy/prod.sh"
+    "deploy": "./utils/deploy/prod.sh",
+    "list": "node utils/gen-peeve-list.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6",
+    "markdown-it": "^15.0.0",
     "sass": "^1.102.0"
   }
 }
