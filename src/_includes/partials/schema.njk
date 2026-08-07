@@ -51,7 +51,8 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": {{ category | dump | safe }}
+          "name": {{ categories[category].heading | dump | safe }},
+          "item": "{{ site.url }}/{{ categories[category].slug }}/"
         },
         {
           "@type": "ListItem",

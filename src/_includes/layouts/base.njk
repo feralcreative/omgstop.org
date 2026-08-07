@@ -3,6 +3,7 @@
    set for every one of them via src/peeves/peeves.json. #}
 {% set ogFile = "_default" %}
 {% if category %}{% set ogFile = page.fileSlug %}{% endif %}
+{% if categoryPage %}{% set ogFile = "cat-" ~ group.slug %}{% endif %}
 {% set ogImage = site.url ~ "/og/" ~ ogFile ~ ".png" %}
 {% set pageTitle = (title | smartquotes) if title else site.name %}
 {% set pageDesc = (summary or site.description) | smartquotes %}
@@ -51,6 +52,7 @@
     <link rel="stylesheet" href="/css/style.css" />
 
     {% include "partials/schema.njk" %}
+    {%- include "partials/analytics.njk" %}
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

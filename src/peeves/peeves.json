@@ -1,5 +1,7 @@
 {
   "layout": "layouts/peeve.njk",
   "tags": "peeves",
-  "permalink": "/{{ page.fileSlug }}/index.html"
+  "eleventyComputed": {
+    "permalink": "{% if site.urlStyle == 'nested' %}/{{ categories[category].slug }}/{{ page.fileSlug }}/index.html{% else %}/{{ page.fileSlug }}/index.html{% endif %}"
+  }
 }

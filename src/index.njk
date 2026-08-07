@@ -14,7 +14,7 @@ eleventyExcludeFromCollections: true
   {% if groups.length %}
     {% for group in groups %}
     <section class="group">
-      <h2 class="group__name">{{ group.name }}</h2>
+      <h2 class="group__name"><a href="/{{ group.slug }}/">{{ group.heading }}</a></h2>
       <ul class="peeve-list">
         {% for peeve in group.items %}
         <li class="peeve-list__item">

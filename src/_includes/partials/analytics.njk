@@ -1,0 +1,28 @@
+{#- Google Analytics (GA4).
+
+    Two guards:
+
+    1. `site.analyticsId` — the measurement ID lives in src/_data/site.json, not
+       inline here, so there is one place to change it and no risk of a stale
+       copy in a second template.
+
+    2. `runMode == "build"` — `npm run dev` runs Eleventy in "serve" mode, so
+       localhost never fires a hit. Without this, every save during a styling
+       session lands in the property as real traffic from your own machine, and
+       the first week of data is mostly you.
+
+    Alias pages (/their, /seperate, …) deliberately do NOT include this: they
+    call location.replace() synchronously, which beats the async gtag load, so
+    the hit would be unreliable at best. The canonical page records the visit.
+-#}
+{%- if site.analyticsId and eleventy.env.runMode == "build" %}
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.analyticsId }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '{{ site.analyticsId }}');
+</script>
+{%- endif %}

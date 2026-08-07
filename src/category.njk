@@ -1,0 +1,50 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: collections.peevesByCategory
+  size: 1
+  alias: group
+permalink: "/{{ group.slug }}/index.html"
+eleventyExcludeFromCollections: true
+eleventyComputed:
+  title: "{{ group.title }}"
+  summary: "{{ group.summary }}"
+  categoryPage: true
+---
+
+<div class="home">
+  <header class="home__head">
+    <p class="peeve__eyebrow">{{ group.heading }}</p>
+    <h1 class="cat__title">{{ group.title | smartquotes }}</h1>
+    {# Unique copy per hub. Without it these pages are a reordered slice of the
+       home page, which is the definition of thin duplicate content. #}
+    <p class="cat__intro">{{ group.intro | smartquotes }}</p>
+  </header>
+
+  <ul class="peeve-list">
+    {% for peeve in group.items %}
+    <li class="peeve-list__item">
+      <a class="peeve-list__link" href="{{ peeve.url }}">
+        <h2 class="peeve-list__title">
+          {{ peeve.data.title | smartquotes }}
+          <span class="peeve-list__slug">omgstop.org{{ peeve.url | prettyUrl }}</span>
+        </h2>
+        {% if peeve.data.summary %}
+        <p class="peeve-list__summary">{{ peeve.data.summary | smartquotes }}</p>
+        {% endif %}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <nav class="related" aria-label="Other categories">
+    <h2 class="related__label">Everything else</h2>
+    <ul class="related__list">
+      {% for other in collections.peevesByCategory %}
+      {% if other.slug != group.slug %}
+      <li><a href="/{{ other.slug }}/">{{ other.heading }}</a></li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </nav>
+</div>

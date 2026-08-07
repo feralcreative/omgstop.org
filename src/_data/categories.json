@@ -1,0 +1,34 @@
+{
+  "Grammar": {
+    "slug": "grammar",
+    "aliases": ["grammar-mistakes", "usage"],
+    "heading": "Grammar",
+    "title": "Common grammar mistakes",
+    "summary": "Word pairs people swap at random. Each one has a test that takes two seconds.",
+    "intro": "These are the ones where both spellings are real words, correctly spelled, so nothing gets underlined and the mistake ships. Spellcheck cannot help you here — the only fix is knowing which is which, and every entry below has a test that settles it in about two seconds."
+  },
+  "Spelling": {
+    "slug": "spelling",
+    "aliases": ["misspellings", "spelling-mistakes"],
+    "heading": "Spelling",
+    "title": "Commonly misspelled words",
+    "summary": "The words that beat everyone. Each one has a mnemonic that makes it stick.",
+    "intro": "Every word here shows up near the top of published misspelling rankings, and every one has a trick that makes it permanent — a rat in separate, one collar and two sleeves in necessary. Learn the trick once and you stop needing to look it up."
+  },
+  "Mangled phrases": {
+    "slug": "phrases",
+    "aliases": ["eggcorns", "mangled-phrases"],
+    "heading": "Mangled phrases",
+    "title": "Phrases people get wrong",
+    "summary": "Idioms reshaped into words that almost make sense. Mostly harmless out loud, unmissable in writing.",
+    "intro": "Most of these are eggcorns: a phrase you have only ever heard, rebuilt out of words you already know. The substitutions are usually reasonable — deep-seeded really does sound like it means something — which is exactly why they spread. They just survive speech far better than they survive print."
+  },
+  "Logical fallacies": {
+    "slug": "fallacies",
+    "aliases": ["logical-fallacies", "fallacy"],
+    "heading": "Logical fallacies",
+    "title": "Logical fallacies, explained",
+    "summary": "Arguments that look like reasoning and aren't. What each one does, and how to answer it.",
+    "intro": "A fallacy is a move that has the shape of an argument without the substance of one. Each entry names the move, shows it happening, and gives you the question that takes it apart. Worth reading the fallacy fallacy before you start naming these at people: spotting one means the argument failed, not that the conclusion is false."
+  }
+}

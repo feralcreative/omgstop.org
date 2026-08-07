@@ -6,7 +6,7 @@ layout: layouts/base.njk
    different treatment for the "wrong" line — see .peeve--argument in the CSS. #}
 <article class="peeve{% if category == 'Logical fallacies' %} peeve--argument{% endif %}">
   <header class="peeve__head">
-    {% if eyebrow or category %}<p class="peeve__eyebrow">{{ eyebrow or category }}</p>{% endif %}
+    {% if category %}<p class="peeve__eyebrow"><a href="/{{ categories[category].slug }}/">{{ categories[category].heading }}</a></p>{% endif %}
     <h1 class="peeve__title">{{ title | smartquotes }}</h1>
     {% if summary %}<p class="peeve__summary">{{ summary | smartquotes }}</p>{% endif %}
   </header>

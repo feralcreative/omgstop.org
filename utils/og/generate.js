@@ -178,6 +178,29 @@ for (const file of files) {
   written++;
 }
 
+// Category hub cards.
+const categories = JSON.parse(
+  fs.readFileSync(path.join(ROOT, "src", "_data", "categories.json"), "utf8")
+);
+for (const [name, meta] of Object.entries(categories)) {
+  const svg = card({
+    title: plain(meta.title),
+    summary: plain(meta.summary),
+    category: "OMG STOP",
+    snark: "",
+  });
+  fs.writeFileSync(
+    path.join(OUT, `cat-${meta.slug}.png`),
+    new Resvg(svg, {
+      fitTo: { mode: "width", value: W },
+      font: { fontFiles, loadSystemFonts: false, defaultFontFamily: "Inter" },
+    })
+      .render()
+      .asPng()
+  );
+}
+console.log(`og: ${Object.keys(categories).length} category card(s)`);
+
 // Home card, used for / and as the fallback anywhere a page has no image.
 const homeSvg = card({
   title: "OMG STOP",

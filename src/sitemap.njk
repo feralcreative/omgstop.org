@@ -12,6 +12,14 @@ eleventyExcludeFromCollections: true
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  {%- for group in collections.peevesByCategory %}
+  <url>
+    <loc>{{ site.url }}/{{ group.slug }}/</loc>
+    <lastmod>{{ group.items | newestPeeveDate }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  {%- endfor %}
   {%- for peeve in collections.peeves %}
   <url>
     <loc>{{ site.url }}{{ peeve.url }}</loc>
