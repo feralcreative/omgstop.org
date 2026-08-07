@@ -7,14 +7,16 @@ layout: layouts/base.njk
 <article class="peeve{% if category == 'Logical fallacies' %} peeve--argument{% endif %}">
   <header class="peeve__head">
     {% if eyebrow or category %}<p class="peeve__eyebrow">{{ eyebrow or category }}</p>{% endif %}
-    <h1 class="peeve__title">{{ title }}</h1>
-    {% if summary %}<p class="peeve__summary">{{ summary }}</p>{% endif %}
+    <h1 class="peeve__title">{{ title | smartquotes }}</h1>
+    {% if summary %}<p class="peeve__summary">{{ summary | smartquotes }}</p>{% endif %}
   </header>
 
   {% if rule %}
   <aside class="rule" aria-label="The short version">
     <p class="rule__label">The short version</p>
-    <p class="rule__body">{{ rule | safe }}</p>
+    {# `safe` because rule intentionally carries <em>/<b>; smartquotes skips
+       anything inside a tag, so the markup survives the conversion. #}
+    <p class="rule__body">{{ rule | smartquotes | safe }}</p>
   </aside>
   {% endif %}
 
@@ -28,12 +30,12 @@ layout: layouts/base.njk
         <p class="example__line example__line--wrong">
           <span class="example__mark" aria-hidden="true">✗</span>
           <span class="visually-hidden">Wrong:</span>
-          <span class="example__text">{{ ex.wrong }}</span>
+          <span class="example__text">{{ ex.wrong | smartquotes }}</span>
         </p>
         <p class="example__line example__line--right">
           <span class="example__mark" aria-hidden="true">✓</span>
           <span class="visually-hidden">Right:</span>
-          <span class="example__text">{{ ex.right }}</span>
+          <span class="example__text">{{ ex.right | smartquotes }}</span>
         </p>
         {% if ex.note %}<p class="example__note">{{ ex.note | mdInline | safe }}</p>{% endif %}
       </li>
@@ -44,7 +46,7 @@ layout: layouts/base.njk
 
   <div class="prose">{{ content | safe }}</div>
 
-  {% if snark %}<p class="peeve__snark">{{ snark }}</p>{% endif %}
+  {% if snark %}<p class="peeve__snark">{{ snark | smartquotes }}</p>{% endif %}
 
   <nav class="peeve__nav">
     <a class="button" href="/">See the rest of them</a>

@@ -4,19 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>{% if title %}{{ title }} – {{ site.name }}{% else %}{{ site.name }}{% endif %}</title>
-    <meta name="description" content="{{ summary or site.description }}" />
+    <title>{% if title %}{{ title | smartquotes }} – {{ site.name }}{% else %}{{ site.name }}{% endif %}</title>
+    <meta name="description" content="{{ (summary or site.description) | smartquotes }}" />
 
     {# These matter more than usual: the whole point is sending the link to
        someone, and an unfurled preview in Slack does half the arguing. #}
     <meta property="og:site_name" content="{{ site.name }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="{{ title or site.name }}" />
-    <meta property="og:description" content="{{ summary or site.description }}" />
+    <meta property="og:title" content="{{ (title or site.name) | smartquotes }}" />
+    <meta property="og:description" content="{{ (summary or site.description) | smartquotes }}" />
     <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="{{ title or site.name }}" />
-    <meta name="twitter:description" content="{{ summary or site.description }}" />
+    <meta name="twitter:title" content="{{ (title or site.name) | smartquotes }}" />
+    <meta name="twitter:description" content="{{ (summary or site.description) | smartquotes }}" />
 
     <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

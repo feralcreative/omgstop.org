@@ -7,7 +7,7 @@ eleventyExcludeFromCollections: true
 <div class="home">
   <header class="home__head">
     <h1 class="home__title">OMG<br /><span>STOP</span></h1>
-    <p class="home__tagline">{{ site.tagline }}</p>
+    <p class="home__tagline">{{ site.tagline | smartquotes }}</p>
   </header>
 
   {% set groups = collections.peevesByCategory %}
@@ -20,11 +20,11 @@ eleventyExcludeFromCollections: true
         <li class="peeve-list__item">
           <a class="peeve-list__link" href="{{ peeve.url }}">
             <h3 class="peeve-list__title">
-              {{ peeve.data.title }}
+              {{ peeve.data.title | smartquotes }}
               <span class="peeve-list__slug">omgstop.org{{ peeve.url | prettyUrl }}</span>
             </h3>
             {% if peeve.data.summary %}
-            <p class="peeve-list__summary">{{ peeve.data.summary }}</p>
+            <p class="peeve-list__summary">{{ peeve.data.summary | smartquotes }}</p>
             {% endif %}
           </a>
         </li>

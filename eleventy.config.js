@@ -5,9 +5,43 @@ import markdownIt from "markdown-it";
 // Example notes are authored in front matter, which Eleventy hands back as raw
 // strings — the Markdown pipeline only touches the body. Without this, an
 // emphasised word in a note ships as literal asterisks.
-const md = markdownIt({ html: true, typographer: false });
+const md = markdownIt({ html: true, typographer: true });
+
+// Curly quotes and apostrophes for anything the reader sees.
+//
+// Done at render time on purpose: the .md sources keep plain ASCII quotes, so
+// you can type normally, grep normally, and never think about which character
+// landed. Only the HTML gets the typographic ones.
+//
+// Tag-aware. Some fields (`rule`) legitimately contain <em>/<b>, and curling a
+// quote inside an HTML attribute would corrupt the markup, so text inside
+// angle brackets is passed through untouched.
+function smartquotes(input) {
+  return String(input ?? "")
+    .split(/(<[^>]*>)/)
+    .map((chunk, i) => {
+      if (i % 2) return chunk; // odd chunks are the tags themselves
+      return (
+        chunk
+          // Elisions and decades first — '90s, 'em, 'til — else the
+          // opening-single rule below would treat them as an open quote.
+          .replace(/'(?=\d{2}s\b)/g, "’")
+          .replace(/(^|[\s([{])'(?=(?:em|til|tis|round)\b)/gi, "$1’")
+          // Opening double: at a boundary. Everything left over closes.
+          .replace(/(^|[\s([{—–])"/g, "$1“")
+          .replace(/"/g, "”")
+          // Opening single at a boundary; every remaining ' is an apostrophe.
+          .replace(/(^|[\s([{—–])'/g, "$1‘")
+          .replace(/'/g, "’")
+      );
+    })
+    .join("");
+}
 
 export default function (eleventyConfig) {
+  // Same treatment for Markdown bodies. typographer also handles -- and ...,
+  // and it leaves code spans alone.
+  eleventyConfig.amendLibrary("md", (mdLib) => mdLib.set({ typographer: true }));
   // SCSS is compiled by Eleventy itself rather than a parallel `sass --watch`
   // process, so `npm run dev` has one watcher and `npm run build` has one step.
   eleventyConfig.addTemplateFormats("scss");
@@ -46,6 +80,7 @@ export default function (eleventyConfig) {
   // renderInline, not render: notes sit inside a <p> already, and the block
   // renderer would wrap them in a second one.
   eleventyConfig.addFilter("mdInline", (s) => md.renderInline(String(s ?? "")));
+  eleventyConfig.addFilter("smartquotes", smartquotes);
 
   // Peeves are ordered by the `order` field, then alphabetically, so the index
   // doesn't reshuffle itself every time one gets edited.

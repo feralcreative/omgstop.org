@@ -10,7 +10,7 @@ eleventyExcludeFromCollections: true
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>{{ entry.title }} – {{ site.name }}</title>
+    <title>{{ entry.title | smartquotes }} – {{ site.name }}</title>
     {# Canonical points at the real page so search engines and link unfurlers
        treat the aliases as the same thing rather than duplicate content. #}
     <link rel="canonical" href="{{ site.url }}{{ entry.target }}/" />
@@ -27,7 +27,7 @@ eleventyExcludeFromCollections: true
     <div class="notfound">
       <p class="notfound__code">Redirecting</p>
       <h1 class="notfound__title">
-        <a href="{{ entry.target }}/">{{ entry.title }}</a>
+        <a href="{{ entry.target }}/">{{ entry.title | smartquotes }}</a>
       </h1>
     </div>
   </body>

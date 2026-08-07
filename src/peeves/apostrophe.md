@@ -26,7 +26,7 @@ examples:
 An apostrophe does exactly two things:
 
 - **Possession.** Ziad's problem. The company's policy.
-- **Missing letters.** Don't (do not). It's (it is). '90s (1990s).
+- **Missing letters.** Don't (do not). It's (it is). ’90s (1990s).
 
 Making a word plural is not on the list and never has been.
 
