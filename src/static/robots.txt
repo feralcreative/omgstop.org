@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
+# The alias URLs (/their, /seperate, /whataboutism …) are meta-refresh redirects
+# carrying noindex and a canonical to the real page. They are crawlable on
+# purpose so the link equity flows through, they just should not be indexed
+# themselves — the pages say so, this file does not need to.
+
 Sitemap: https://omgstop.org/sitemap.xml

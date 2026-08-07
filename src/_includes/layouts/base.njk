@@ -1,26 +1,56 @@
+{# Peeve pages get their own preview card; everything else falls back to the
+   site card. `category` is the reliable marker for "this is a peeve" — it is
+   set for every one of them via src/peeves/peeves.json. #}
+{% set ogFile = "_default" %}
+{% if category %}{% set ogFile = page.fileSlug %}{% endif %}
+{% set ogImage = site.url ~ "/og/" ~ ogFile ~ ".png" %}
+{% set pageTitle = (title | smartquotes) if title else site.name %}
+{% set pageDesc = (summary or site.description) | smartquotes %}
+{% set pageUrl = site.url ~ page.url %}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>{% if title %}{{ title | smartquotes }} – {{ site.name }}{% else %}{{ site.name }}{% endif %}</title>
-    <meta name="description" content="{{ (summary or site.description) | smartquotes }}" />
+    <title>{% if title %}{{ pageTitle }} – {{ site.name }}{% else %}{{ site.name }}{% endif %}</title>
+    <meta name="description" content="{{ pageDesc }}" />
 
     {# These matter more than usual: the whole point is sending the link to
-       someone, and an unfurled preview in Slack does half the arguing. #}
+       someone, and an unfurled preview does half the arguing. summary_large_image
+       gets the full-width card rather than a thumbnail. #}
     <meta property="og:site_name" content="{{ site.name }}" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="{{ (title or site.name) | smartquotes }}" />
-    <meta property="og:description" content="{{ (summary or site.description) | smartquotes }}" />
-    <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="{{ (title or site.name) | smartquotes }}" />
-    <meta name="twitter:description" content="{{ (summary or site.description) | smartquotes }}" />
+    <meta property="og:type" content="{% if category %}article{% else %}website{% endif %}" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="{{ pageTitle }}" />
+    <meta property="og:description" content="{{ pageDesc }}" />
+    <meta property="og:url" content="{{ pageUrl }}" />
+    <meta property="og:image" content="{{ ogImage }}" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="{{ pageTitle }} — {{ pageDesc }}" />
 
-    <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ pageTitle }}" />
+    <meta name="twitter:description" content="{{ pageDesc }}" />
+    <meta name="twitter:image" content="{{ ogImage }}" />
+    <meta name="twitter:image:alt" content="{{ pageTitle }} — {{ pageDesc }}" />
+
+    <link rel="canonical" href="{{ pageUrl }}" />
+
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon-180.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    {# Two values so the browser chrome matches the page in both themes. #}
+    <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)" />
+
+    <link rel="alternate" type="application/atom+xml" href="/feed.xml" title="{{ site.name }}" />
+
     <link rel="stylesheet" href="/css/style.css" />
+
+    {% include "partials/schema.njk" %}
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

@@ -425,6 +425,50 @@ a:hover {
   letter-spacing: -0.01em;
 }
 
+/* Same-category siblings. Real internal links, which is most of what a small
+   site can do for crawlers, and the reason a reader stays for a second one. */
+.related {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.related__label {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.related__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.related__list a {
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.related__list a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 .peeve__nav {
   margin-top: 3rem;
 }

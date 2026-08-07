@@ -1,0 +1,90 @@
+{# Structured data as a single @graph so the nodes can reference each other by
+   @id instead of being repeated. Peeve pages describe themselves as a
+   DefinedTerm inside a DefinedTermSet, which is what this site actually is — a
+   glossary — rather than dressing each entry up as a news Article. #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "{{ site.url }}/#website",
+      "url": "{{ site.url }}/",
+      "name": {{ site.name | dump | safe }},
+      "description": {{ site.description | dump | safe }},
+      "inLanguage": "en"
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "{{ site.url }}/#termset",
+      "url": "{{ site.url }}/",
+      "name": {{ site.name | dump | safe }},
+      "description": {{ site.description | dump | safe }},
+      "isPartOf": { "@id": "{{ site.url }}/#website" }
+    },
+    {
+      "@type": "{% if category %}WebPage{% else %}CollectionPage{% endif %}",
+      "@id": "{{ site.url }}{{ page.url }}#webpage",
+      "url": "{{ site.url }}{{ page.url }}",
+      "name": {{ ((title | smartquotes) if title else site.name) | dump | safe }},
+      "description": {{ ((summary or site.description) | smartquotes) | dump | safe }},
+      "isPartOf": { "@id": "{{ site.url }}/#website" },
+      "inLanguage": "en",
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "{{ site.url }}/og/{% if category %}{{ page.fileSlug }}{% else %}_default{% endif %}.png",
+        "width": 1200,
+        "height": 630
+      },
+      "breadcrumb": { "@id": "{{ site.url }}{{ page.url }}#breadcrumb" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "{{ site.url }}{{ page.url }}#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "{{ site.url }}/"
+        }{% if category %},
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ category | dump | safe }}
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": {{ (title | smartquotes) | dump | safe }},
+          "item": "{{ site.url }}{{ page.url }}"
+        }{% endif %}
+      ]
+    }{% if category %},
+    {
+      "@type": "DefinedTerm",
+      "@id": "{{ site.url }}{{ page.url }}#term",
+      "name": {{ (title | smartquotes) | dump | safe }},
+      "description": {{ ((rule | striptags) or summary) | smartquotes | dump | safe }},
+      "url": "{{ site.url }}{{ page.url }}",
+      "termCode": "{{ page.fileSlug }}",
+      "inDefinedTermSet": { "@id": "{{ site.url }}/#termset" }
+    }{% endif %}{% if not category and collections.peeves %},
+    {
+      "@type": "ItemList",
+      "@id": "{{ site.url }}/#list",
+      "numberOfItems": {{ collections.peeves.length }},
+      "itemListElement": [
+        {%- for peeve in collections.peeves %}
+        {
+          "@type": "ListItem",
+          "position": {{ loop.index }},
+          "name": {{ (peeve.data.title | smartquotes) | dump | safe }},
+          "url": "{{ site.url }}{{ peeve.url }}"
+        }{% if not loop.last %},{% endif %}
+        {%- endfor %}
+      ]
+    }{% endif %}
+  ]
+}
+</script>

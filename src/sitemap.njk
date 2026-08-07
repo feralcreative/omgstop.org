@@ -3,13 +3,21 @@ permalink: /sitemap.xml
 eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
+{#- Canonical pages only. Alias redirects are noindex; listing them here would
+    ask Google to index duplicate content the pages themselves disavow. -#}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>{{ site.url }}/</loc>
+    <lastmod>{{ collections.peeves | newestPeeveDate }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
   {%- for peeve in collections.peeves %}
   <url>
     <loc>{{ site.url }}{{ peeve.url }}</loc>
+    <lastmod>{{ peeve.date | isoDate }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   {%- endfor %}
 </urlset>

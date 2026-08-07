@@ -1,0 +1,24 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{ site.name }}</title>
+  <subtitle>{{ site.description }}</subtitle>
+  <link href="{{ site.url }}/feed.xml" rel="self" />
+  <link href="{{ site.url }}/" />
+  <id>{{ site.url }}/</id>
+  <updated>{{ collections.peeves | newestPeeveDate }}</updated>
+  <author><name>{{ site.author }}</name></author>
+  {%- for peeve in collections.peeves %}
+  <entry>
+    <title>{{ peeve.data.title | smartquotes }}</title>
+    <link href="{{ site.url }}{{ peeve.url }}" />
+    <id>{{ site.url }}{{ peeve.url }}</id>
+    <updated>{{ peeve.date | isoDate }}</updated>
+    <category term="{{ peeve.data.category }}" />
+    <summary>{{ peeve.data.summary | smartquotes }}</summary>
+  </entry>
+  {%- endfor %}
+</feed>

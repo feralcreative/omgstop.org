@@ -48,6 +48,20 @@ layout: layouts/base.njk
 
   {% if snark %}<p class="peeve__snark">{{ snark | smartquotes }}</p>{% endif %}
 
+  {% set siblings = collections.peeves | related(page.url, category, order, 4) %}
+  {% if siblings.length %}
+  <nav class="related" aria-label="More in {{ category }}">
+    <h2 class="related__label">More {{ category | lower }}</h2>
+    <ul class="related__list">
+      {% for peeve in siblings %}
+      <li>
+        <a href="{{ peeve.url }}">{{ peeve.data.title | smartquotes }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+  {% endif %}
+
   <nav class="peeve__nav">
     <a class="button" href="/">See the rest of them</a>
   </nav>

@@ -1,42 +1,12 @@
 import path from "node:path";
 import * as sass from "sass";
 import markdownIt from "markdown-it";
+import { smartquotes } from "./utils/smartquotes.js";
 
 // Example notes are authored in front matter, which Eleventy hands back as raw
 // strings — the Markdown pipeline only touches the body. Without this, an
 // emphasised word in a note ships as literal asterisks.
 const md = markdownIt({ html: true, typographer: true });
-
-// Curly quotes and apostrophes for anything the reader sees.
-//
-// Done at render time on purpose: the .md sources keep plain ASCII quotes, so
-// you can type normally, grep normally, and never think about which character
-// landed. Only the HTML gets the typographic ones.
-//
-// Tag-aware. Some fields (`rule`) legitimately contain <em>/<b>, and curling a
-// quote inside an HTML attribute would corrupt the markup, so text inside
-// angle brackets is passed through untouched.
-function smartquotes(input) {
-  return String(input ?? "")
-    .split(/(<[^>]*>)/)
-    .map((chunk, i) => {
-      if (i % 2) return chunk; // odd chunks are the tags themselves
-      return (
-        chunk
-          // Elisions and decades first — '90s, 'em, 'til — else the
-          // opening-single rule below would treat them as an open quote.
-          .replace(/'(?=\d{2}s\b)/g, "’")
-          .replace(/(^|[\s([{])'(?=(?:em|til|tis|round)\b)/gi, "$1’")
-          // Opening double: at a boundary. Everything left over closes.
-          .replace(/(^|[\s([{—–])"/g, "$1“")
-          .replace(/"/g, "”")
-          // Opening single at a boundary; every remaining ' is an apostrophe.
-          .replace(/(^|[\s([{—–])'/g, "$1‘")
-          .replace(/'/g, "’")
-      );
-    })
-    .join("");
-}
 
 export default function (eleventyConfig) {
   // Same treatment for Markdown bodies. typographer also handles -- and ...,
@@ -82,6 +52,15 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("mdInline", (s) => md.renderInline(String(s ?? "")));
   eleventyConfig.addFilter("smartquotes", smartquotes);
 
+  // Dates for the Atom feed and sitemap. Eleventy sets page.date from the file's
+  // committed/created time, which is what "when did this entry appear" means here.
+  eleventyConfig.addFilter("isoDate", (d) => new Date(d).toISOString());
+  eleventyConfig.addFilter("dateOnly", (d) => new Date(d).toISOString().slice(0, 10));
+  eleventyConfig.addFilter("newestPeeveDate", (peeves) => {
+    const times = (peeves || []).map((p) => new Date(p.date).getTime()).filter(Boolean);
+    return new Date(times.length ? Math.max(...times) : Date.now()).toISOString();
+  });
+
   // Peeves are ordered by the `order` field, then alphabetically, so the index
   // doesn't reshuffle itself every time one gets edited.
   const sortPeeves = (a, b) =>
@@ -102,6 +81,25 @@ export default function (eleventyConfig) {
       groups.get(name).push(peeve);
     }
     return [...groups].map(([name, items]) => ({ name, items }));
+  });
+
+  // Same-category siblings, for the "related" block at the foot of each entry.
+  // Real internal links between topically-related pages, which is what actually
+  // helps crawlers understand a small site — and what stops a reader who landed
+  // on one entry from leaving after it.
+  eleventyConfig.addFilter("related", function (peeves, currentUrl, category, order, limit) {
+    const same = (peeves || []).filter(
+      (p) => p.url !== currentUrl && p.data.category === category
+    );
+    // Start from the current entry's position so each page shows different
+    // neighbours rather than every page linking the same first few.
+    const idx = same.findIndex((p) => (p.data.order ?? 0) > (order ?? 0));
+    const start = idx === -1 ? 0 : idx;
+    const out = [];
+    for (let i = 0; i < same.length && out.length < (limit || 4); i++) {
+      out.push(same[(start + i) % same.length]);
+    }
+    return out;
   });
 
   // Flattened alias list. A peeve declaring `aliases: [their, there]` gets a
