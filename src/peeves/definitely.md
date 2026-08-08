@@ -4,7 +4,7 @@ category: Spelling
 order: 40
 summary: "There is no A in definitely. There has never been an A in definitely."
 rule: "de-<em>finite</em>-ly. The middle is the word <em>finite</em>."
-snark: "Definately not."
+snark: "Now go find the finite in it."
 aliases:
   - definately
 examples:

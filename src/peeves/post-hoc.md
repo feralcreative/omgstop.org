@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 110
 summary: "It happened afterwards. That does not mean it happened because of."
 rule: "\"After\" is not \"because.\""
-snark: "The rooster does not cause the sunrise."
+snark: "Now go ask what else changed."
 examples:
   - wrong: "\"Sales rose after the redesign, so the redesign worked.\""
     right: "\"What else changed that month?\""

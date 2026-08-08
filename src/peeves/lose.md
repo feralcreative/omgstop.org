@@ -4,7 +4,7 @@ category: Grammar
 order: 14
 summary: "One extra O turns a verb into an adjective."
 rule: "<em>Lose</em> = to misplace or be defeated. <em>Loose</em> = not tight."
-snark: "You're going to loose me on this one."
+snark: "Now go tighten something."
 aliases:
   - loose
 examples:

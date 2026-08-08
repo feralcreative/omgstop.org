@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 114
 summary: "You found the data that agreed with you and stopped looking."
 rule: "Selecting the evidence that fits is not evidence. It's <em>editing</em>."
-snark: "Nine studies said no. You brought the tenth."
+snark: "Now go read the other nine."
 examples:
   - wrong: "\"Three reviews say it's great.\""
     right: "\"What do all the reviews say?\""

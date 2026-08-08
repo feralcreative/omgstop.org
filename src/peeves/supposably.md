@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 68
 summary: "You mean supposedly. Supposably is a real word, and it does not mean that."
 rule: "You want <em>supposedly</em>: according to what people say."
-snark: "Supposably nobody noticed."
+snark: "Now go say supposedly out loud."
 aliases:
   - supposedly
 examples:

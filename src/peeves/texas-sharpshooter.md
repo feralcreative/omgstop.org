@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 124
 summary: "You drew the target around the bullet holes."
 rule: "Picking the pattern <em>after</em> seeing the data isn't a finding."
-snark: "Shoot the barn. Paint the bullseye. Announce your aim."
+snark: "Now go predict it first."
 examples:
   - wrong: "\"Our campaign worked—look at the three regions that grew.\""
     right: "\"What happened across all twelve?\""

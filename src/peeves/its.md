@@ -4,7 +4,7 @@ category: Grammar
 order: 11
 summary: "The apostrophe means \"it is.\" It has never meant \"belonging to it.\""
 rule: "<em>It's</em> = it is. <em>Its</em> = belongs to it. No exceptions."
-snark: "Its fine. It's not."
+snark: "Now go find every one you got wrong."
 aliases:
   - it-is
 examples:

@@ -4,7 +4,7 @@ category: Spelling
 order: 42
 summary: "Two Cs, two Ms. It accommodates both."
 rule: "<em>Accommodate</em> is large enough to accommodate <b>two Cs</b> and <b>two Ms</b>."
-snark: "This word accomodates nothing."
+snark: "Now go double both letters."
 aliases:
   - accomodate
 examples:

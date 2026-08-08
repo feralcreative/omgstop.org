@@ -4,7 +4,7 @@ category: Grammar
 order: 13
 summary: "One is time. One is comparison. They are not interchangeable."
 rule: "<em>Than</em> compares. <em>Then</em> is when."
-snark: "Better then what?"
+snark: "Now go compare something properly."
 aliases:
   - then
 examples:

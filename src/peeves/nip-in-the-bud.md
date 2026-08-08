@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 71
 summary: "It's a gardening metaphor. No butts are involved."
 rule: "A <em>bud</em>—the bit of a plant you cut off before it grows."
-snark: "Nip that in the butt. Please don't."
+snark: "Now go prune something."
 aliases:
   - nip-in-the-butt
 examples:

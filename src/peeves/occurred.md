@@ -4,7 +4,7 @@ category: Spelling
 order: 45
 summary: "Two Rs. The stress falls on the second syllable, so the consonant doubles."
 rule: "<em>Occurred</em>: two Cs, two Rs."
-snark: "It never occured to you."
+snark: "Now go double the R."
 aliases:
   - occured
 examples:

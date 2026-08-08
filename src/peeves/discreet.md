@@ -4,7 +4,7 @@ category: Grammar
 order: 27
 summary: "One means subtle. One means separate. The vowels swap."
 rule: "<em>Discre<b>e</b>t</em> = subtle. <em>Discr<b>e</b>t<b>e</b></em> = separate, distinct."
-snark: "Please be discrete about it. Please don't."
+snark: "Now go separate your Es."
 aliases:
   - discrete
 examples:

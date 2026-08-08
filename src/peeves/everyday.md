@@ -4,7 +4,7 @@ category: Grammar
 order: 19
 summary: "One is an adjective. One is how often. The space is doing real work."
 rule: "<em>Everyday</em> describes a thing. <em>Every day</em> is how often."
-snark: "I do this everyday. No you don't."
+snark: "Now go check whether you meant each day."
 aliases:
   - every-day
 examples:

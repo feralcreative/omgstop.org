@@ -4,7 +4,7 @@ category: Grammar
 order: 16
 summary: "Three words, one sound, and you are picking by vibe."
 rule: "<em>Too</em> = also or excessive. <em>Two</em> = 2. <em>To</em> = everything else."
-snark: "Me to. No."
+snark: "Now go say me too and mean it."
 aliases:
   - to
   - two

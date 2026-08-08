@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 128
 summary: "Someone has it worse. That is true of literally everyone."
 rule: "The existence of bigger problems does not make this one <em>not a problem</em>."
-snark: "Somebody's always got it worse. Including them."
+snark: "Now go fix the small one."
 aliases:
   - worse-things
 examples:

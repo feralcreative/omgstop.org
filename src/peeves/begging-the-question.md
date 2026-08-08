@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 109
 summary: "Your conclusion is hiding in your premise. Also: this phrase does not mean what you think."
 rule: "You assumed the thing you were supposed to <em>prove</em>."
-snark: "It raises the question. It does not beg it."
+snark: "Now go prove the premise."
 aliases:
   - circular-reasoning
 examples:

@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 103
 summary: "You skipped from a small step to catastrophe and called it a consequence."
 rule: "Each step has to actually <em>cause</em> the next one. Show the steps."
-snark: "We went from A to Z without stopping at B."
+snark: "Now go show the steps."
 examples:
   - wrong: "\"If we allow remote Fridays, nobody will ever come in again.\""
     right: "\"What would make Fridays spread to the rest of the week?\""

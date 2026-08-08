@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 108
 summary: "Nobody has disproved it. That is not the same as it being true."
 rule: "The burden of proof is on whoever makes the claim. Not on everyone else to refute it."
-snark: "Prove it isn't a dragon."
+snark: "Now go ask who carries the burden."
 aliases:
   - burden-of-proof
 examples:

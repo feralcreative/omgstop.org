@@ -4,7 +4,7 @@ category: Grammar
 order: 15
 summary: "Same trick as its/it's, and the same 50% failure rate."
 rule: "<em>Who's</em> = who is. <em>Whose</em> = belongs to whom."
-snark: "Who's turn is it? Not yours."
+snark: "Now go ask whose turn it is."
 aliases:
   - whos
 examples:

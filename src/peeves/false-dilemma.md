@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 102
 summary: "Two options were offered. There were never only two."
 rule: "\"Either A or B\" is only an argument if A and B are genuinely the <em>only</em> options."
-snark: "There is a third door. There is always a third door."
+snark: "Now go find the third door."
 aliases:
   - black-or-white
   - false-dichotomy

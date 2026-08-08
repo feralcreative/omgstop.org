@@ -4,7 +4,7 @@ category: Grammar
 order: 1
 summary: "One is for things you count. The other is for things you measure. You picked wrong."
 rule: "If you can count them, it's <em>fewer</em>. If you can only measure it, it's <em>less</em>."
-snark: "Please do this fewer."
+snark: "Now go recount your meetings."
 aliases:
   - fewer
 examples:

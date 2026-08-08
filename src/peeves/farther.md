@@ -4,7 +4,7 @@ category: Grammar
 order: 20
 summary: "One is distance you could measure. One is everything else."
 rule: "<em>Farther</em> = physical distance. <em>Further</em> = degree, or more of something."
-snark: "Let's discuss this farther."
+snark: "Now go measure something."
 aliases:
   - further
 examples:

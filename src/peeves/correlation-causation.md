@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 111
 summary: "Two things move together. That is where your evidence stops."
 rule: "A and B moving together means A causes B, <em>or</em> B causes A, or C causes both, or it's noise."
-snark: "Ice cream sales and drownings. Both go up in July."
+snark: "Now go look for the mechanism."
 aliases:
   - cum-hoc
 examples:

@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 120
 summary: "The coin does not remember. It is not due."
 rule: "Independent events have <em>no memory</em>. Past results change nothing."
-snark: "Red nine times. Still 50/50."
+snark: "Now go leave the table."
 examples:
   - wrong: "\"Black's come up six times, red is due.\""
     right: "\"It's still an even chance.\""

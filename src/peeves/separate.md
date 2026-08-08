@@ -4,7 +4,7 @@ category: Spelling
 order: 41
 summary: "There is a rat in separate. Remember the rat."
 rule: "Sep-<em>a</em>-rate. There's <em>a rat</em> in the middle."
-snark: "Seperate but equal amounts of wrong."
+snark: "Now go find the rat."
 aliases:
   - seperate
 examples:

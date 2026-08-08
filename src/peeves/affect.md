@@ -4,7 +4,7 @@ category: Grammar
 order: 12
 summary: "One is what you do. One is what happens. You have a 50% success rate."
 rule: "<em>Affect</em> is the verb. <em>Effect</em> is the noun."
-snark: "The affect was immediate. No it wasn't."
+snark: "Now go fix the sentence you were writing."
 aliases:
   - effect
 examples:

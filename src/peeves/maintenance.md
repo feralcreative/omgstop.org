@@ -4,7 +4,7 @@ category: Spelling
 order: 47
 summary: "The verb is maintain. The noun drops the I."
 rule: "You main<b>tain</b> it, but you do main<b>ten</b>ance."
-snark: "Scheduled maintainance."
+snark: "Now go drop the I."
 aliases:
   - maintainance
 examples:

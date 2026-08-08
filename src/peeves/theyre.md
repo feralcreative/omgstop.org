@@ -4,7 +4,7 @@ category: Grammar
 order: 2
 summary: "Three words. Three jobs. You are picking one at random."
 rule: "<em>They're</em> = they are. <em>Their</em> = belongs to them. <em>There</em> = a place."
-snark: "Their's got to be a better way."
+snark: "Now go reread the email you just sent."
 aliases:
   - their
   - there

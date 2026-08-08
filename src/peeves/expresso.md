@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 81
 summary: "Espresso. There is no X. It is not express."
 rule: "<em>Espresso</em>—S, not X."
-snark: "One expresso, please. No."
+snark: "Now go order it correctly."
 aliases:
   - espresso
 examples:

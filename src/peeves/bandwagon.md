@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 107
 summary: "Lots of people believe it. Lots of people have been wrong before."
 rule: "Popularity measures <em>how many</em> believe it, not whether it's true."
-snark: "Everyone was also sure about the sun going round the earth."
+snark: "Now go count who actually checked."
 aliases:
   - ad-populum
   - appeal-to-popularity

@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 129
 summary: "You judged the claim by where it came from."
 rule: "Where an idea <em>originated</em> says nothing about whether it's true."
-snark: "Consider the source. Then consider the argument."
+snark: "Now go read the argument."
 examples:
   - wrong: "\"That's from a company blog, so it's marketing.\""
     right: "\"It might be. Are the numbers wrong?\""

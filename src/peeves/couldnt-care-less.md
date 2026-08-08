@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 70
 summary: "If you could care less, you care somewhat. That is the opposite of your point."
 rule: "<em>Couldn't</em> care less—you are at the floor, there is no lower."
-snark: "You could care less? So you do care."
+snark: "Now go put the n't back."
 aliases:
   - could-care-less
 examples:

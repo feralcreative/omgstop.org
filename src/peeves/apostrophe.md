@@ -4,7 +4,7 @@ category: Grammar
 order: 3
 summary: "They mark possession or missing letters. They have never once made anything plural."
 rule: "More than one thing? <em>No apostrophe.</em> Ever."
-snark: "Try reading some book's."
+snark: "Now go look at your own menu."
 aliases:
   - apostrophes
   - sky-comma

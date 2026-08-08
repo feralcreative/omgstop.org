@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 121
 summary: "You already spent it. It's gone either way."
 rule: "Money and time already spent are <em>gone</em>. Only future costs and benefits count."
-snark: "Throwing good money after bad is still throwing money."
+snark: "Now go count only what is left."
 examples:
   - wrong: "\"We've put eight months in, we can't stop now.\""
     right: "\"From today, is finishing worth what it'll cost?\""

@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 123
 summary: "You used one word to mean two things and hoped nobody noticed."
 rule: "A word has to keep the <em>same</em> meaning from premise to conclusion."
-snark: "Same word. Different job. Deliberately."
+snark: "Now go define your terms."
 aliases:
   - ambiguity
 examples:

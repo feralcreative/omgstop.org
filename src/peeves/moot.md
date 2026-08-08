@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 72
 summary: "Moot. Not mute. The point isn't silent, it's irrelevant."
 rule: "A <em>moot</em> point is one that no longer matters."
-snark: "That's a mute point. It's making a noise, though."
+snark: "Now go argue about something that matters."
 aliases:
   - mute-point
 examples:

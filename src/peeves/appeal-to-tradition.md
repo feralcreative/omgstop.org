@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 106
 summary: "We've always done it this way. That is a description, not a reason."
 rule: "How long something has been done says nothing about whether it <em>works</em>."
-snark: "So was bloodletting."
+snark: "Now go ask why the fence is there."
 examples:
   - wrong: "\"This is how we've always run the release.\""
     right: "\"What breaks if we change it?\""

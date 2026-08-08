@@ -4,7 +4,7 @@ category: Grammar
 order: 24
 summary: "The word is regardless. The extra syllable is doing damage, not work."
 rule: "You mean <em>regardless</em>."
-snark: "Irregardless of the evidence."
+snark: "Now go drop two syllables."
 aliases:
   - regardless
 examples:

@@ -4,7 +4,7 @@ category: Grammar
 order: 26
 summary: "One is a person or the main thing. One is a rule."
 rule: "<em>Princip<b>l</b>e</em> = a ru<b>l</b>e. <em>Principa<b>l</b></em> = main, or the person in charge."
-snark: "It's the principle of the thing. Probably."
+snark: "Now go stand on one."
 aliases:
   - principle
 examples:

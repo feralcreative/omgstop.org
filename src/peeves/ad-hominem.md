@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 101
 summary: "You attacked the person. The argument is still standing there, untouched."
 rule: "Whether someone is a jerk has no bearing on whether they are <em>right</em>."
-snark: "Devastating. Also irrelevant."
+snark: "Now go attack the argument instead."
 examples:
   - wrong: "\"You'd know if you had any real experience.\""
     right: "\"Here's why that approach fails.\""

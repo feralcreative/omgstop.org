@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 113
 summary: "Your uncle is not a study."
 rule: "One vivid story beats a spreadsheet emotionally. It does not beat it <em>factually</em>."
-snark: "My grandfather smoked and lived to 95. He was lucky, not evidence."
+snark: "Now go find the study."
 examples:
   - wrong: "\"My cousin got rich on it, so it works.\""
     right: "\"What happened to everyone else who tried?\""

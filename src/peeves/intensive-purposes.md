@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 69
 summary: "The phrase is \"for all intents and purposes.\" There is nothing intensive about it."
 rule: "<em>For all intents and purposes</em>—meaning, in every practical sense."
-snark: "For all intensive purposes, you tried."
+snark: "Now go use both nouns."
 aliases:
   - intents-and-purposes
   - intensive

@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 112
 summary: "You met three of them. There are eight billion people."
 rule: "A small or lopsided sample tells you about the <em>sample</em>."
-snark: "Two data points is not a trend."
+snark: "Now go ask how many."
 examples:
   - wrong: "\"Both contractors we hired were unreliable, so contractors are unreliable.\""
     right: "\"How did we pick those two?\""

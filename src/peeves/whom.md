@@ -4,7 +4,7 @@ category: Grammar
 order: 21
 summary: "There is a test. It takes two seconds and you have never once used it."
 rule: "Answer with <em>he</em> or <em>him</em>. <em>Him</em> means <em>whom</em>—both end in M."
-snark: "To who it may concern."
+snark: "Now go answer with him and see."
 aliases:
   - who
 examples:

@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 119
 summary: "There is an assumption smuggled into that question."
 rule: "A question that can't be answered without conceding something isn't a <em>question</em>."
-snark: "Answer carefully. It's a trap with a question mark."
+snark: "Now go reject the premise."
 examples:
   - wrong: "\"Why does your team keep missing deadlines?\""
     right: "\"Are we missing deadlines? Let's look.\""

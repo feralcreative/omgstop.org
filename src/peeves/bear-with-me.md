@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 79
 summary: "Bear, as in endure. The other one is an undressing request."
 rule: "<em>Bear</em> = tolerate or carry. <em>Bare</em> = uncover."
-snark: "Bare with me. Absolutely not."
+snark: "Now go keep your clothes on."
 aliases:
   - bare-with-me
 examples:

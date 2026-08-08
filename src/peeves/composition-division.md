@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 122
 summary: "True of the parts is not automatically true of the whole. Or the reverse."
 rule: "What holds for a <em>piece</em> need not hold for the thing it's part of."
-snark: "Every player is excellent. The team is a disaster."
+snark: "Now go check the parts and the whole."
 examples:
   - wrong: "\"Every component is fast, so the system is fast.\""
     right: "\"Where does the time actually go?\""

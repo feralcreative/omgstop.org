@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 105
 summary: "It's natural, therefore it's good. Hemlock is natural."
 rule: "\"Natural\" describes where something <em>came from</em>, not whether it's good for you."
-snark: "So is arsenic."
+snark: "Now go check the data instead."
 examples:
   - wrong: "\"It's all-natural, so it's safer.\""
     right: "\"What does the safety data say?\""
