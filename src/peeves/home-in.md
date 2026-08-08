@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 75
 summary: "Home in, like a homing pigeon. Hone means to sharpen."
 rule: "<em>Home in</em> = navigate toward. <em>Hone</em> = sharpen a blade."
-snark: "Now go home in on it."
+snark: "Now go hone in on the next one."
 aliases:
   - hone-in
 examples:

@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 115
 summary: "You redefined the category to get rid of the counterexample."
 rule: "Moving the definition to dodge a counterexample means your claim can never be <em>wrong</em>."
-snark: "Now go ask what would count."
+snark: "Nobody who reads carefully makes this mistake."
 examples:
   - wrong: "\"No serious engineer skips tests.\" \"I know several who do.\" \"Then they're not serious.\""
     right: "\"Fine—many skip tests. Here's why they shouldn't.\""

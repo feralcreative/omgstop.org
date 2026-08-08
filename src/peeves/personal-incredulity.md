@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 125
 summary: "You can't imagine how it works. The universe is not obliged to fit in your head."
 rule: "\"I don't understand it\" is a fact about <em>you</em>, not about the claim."
-snark: "Now go look it up."
+snark: "I cannot see how anyone gets this wrong, so nobody does."
 examples:
   - wrong: "\"I can't see how that scales, so it won't.\""
     right: "\"Let's look at how it's meant to scale.\""

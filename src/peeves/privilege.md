@@ -4,7 +4,7 @@ category: Spelling
 order: 46
 summary: "No D. There is no D anywhere in privilege."
 rule: "<em>Privilege</em>: <b>i</b>s, then <b>e</b>s. No D."
-snark: "Now go delete the D."
+snark: "Reading this was a priviledge."
 aliases:
   - priviledge
 examples:

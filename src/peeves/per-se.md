@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 77
 summary: "Two Latin words. Neither of them is \"say.\""
 rule: "<em>Per se</em>—Latin for \"in itself.\""
-snark: "Now go learn two words of Latin."
+snark: "Not wrong per say. Just wrong."
 aliases:
   - per-say
   - persay

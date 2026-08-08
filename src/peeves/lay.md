@@ -4,7 +4,7 @@ category: Grammar
 order: 22
 summary: "One takes an object. One doesn't. Then the past tenses make it worse."
 rule: "You <em>lay</em> something down. You <em>lie</em> down yourself."
-snark: "Now go lie down. You have earned it."
+snark: "Go lay down. You have earned it."
 aliases:
   - lie
   - laid

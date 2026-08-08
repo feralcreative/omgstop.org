@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 103
 summary: "You skipped from a small step to catastrophe and called it a consequence."
 rule: "Each step has to actually <em>cause</em> the next one. Show the steps."
-snark: "Now go show the steps."
+snark: "Let this one go and you are inventing your own grammar by Friday."
 examples:
   - wrong: "\"If we allow remote Fridays, nobody will ever come in again.\""
     right: "\"What would make Fridays spread to the rest of the week?\""

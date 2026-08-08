@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 100
 summary: "You beat an argument nobody made. Impressive, irrelevant."
 rule: "Refute what they <em>said</em>, not the dumbest thing you can imagine them saying."
-snark: "Now go argue with what they actually said."
+snark: "So what you are saying is that nobody should ever speak again."
 examples:
   - wrong: "\"We should test this before shipping.\" \"So you want to delay it forever?\""
     right: "\"How long would testing take?\""

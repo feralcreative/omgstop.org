@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 76
 summary: "Peek. You are looking, not climbing a mountain."
 rule: "<em>Peek</em> = a quick look. <em>Peak</em> = a summit."
-snark: "Now go take a look. Two Es."
+snark: "That was your sneak peak."
 aliases:
   - sneak-peak
 examples:

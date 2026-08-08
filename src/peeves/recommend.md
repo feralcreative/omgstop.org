@@ -4,7 +4,7 @@ category: Spelling
 order: 51
 summary: "One C, two Ms. The opposite of what everyone guesses."
 rule: "<em>Re</em> + <em>commend</em>. One C, two Ms."
-snark: "Now go find the commend inside it."
+snark: "Highly reccomended."
 aliases:
   - reccomend
 examples:

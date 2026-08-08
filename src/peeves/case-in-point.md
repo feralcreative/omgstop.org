@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 80
 summary: "In point. Not and point. There aren't two things."
 rule: "<em>Case in point</em>—an example that is <em>in</em> point, meaning relevant."
-snark: "Now go make a relevant one."
+snark: "Case and point."
 aliases:
   - case-and-point
 examples:

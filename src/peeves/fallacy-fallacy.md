@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 126
 summary: "Their argument was bad. Their conclusion might still be right."
 rule: "A broken argument for a claim doesn't make the claim <em>false</em>."
-snark: "Now go check whether they were right anyway."
+snark: "You named a fallacy, so you win."
 examples:
   - wrong: "\"You used a straw man, so you're wrong about the deadline.\""
     right: "\"Your reasoning was bad. Is the deadline still slipping?\""

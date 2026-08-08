@@ -4,7 +4,7 @@ category: Spelling
 order: 50
 summary: "It ends in -ar, not -er."
 rule: "Cal-en-d<b>ar</b>."
-snark: "Now go end it in AR."
+snark: "Put it in your calender."
 aliases:
   - calender
 examples:

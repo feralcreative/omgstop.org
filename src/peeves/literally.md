@@ -4,7 +4,7 @@ category: Grammar
 order: 23
 summary: "It means actually, in fact, not as a metaphor. You mean the opposite."
 rule: "<em>Literally</em> means it actually happened. Not \"very.\""
-snark: "Now go be figurative on purpose."
+snark: "You are literally never getting this wrong again."
 aliases:
   - figuratively
 examples:

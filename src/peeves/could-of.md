@@ -4,7 +4,7 @@ category: Grammar
 order: 18
 summary: "It has always been \"have.\" You are transcribing a contraction you misheard."
 rule: "<em>Could have</em>, <em>would have</em>, <em>should have</em>. Never <em>of</em>."
-snark: "Now go expand every contraction you own."
+snark: "You could of known this a long time ago."
 aliases:
   - would-of
   - should-of

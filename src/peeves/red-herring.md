@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 117
 summary: "That's a different subject, raised on purpose."
 rule: "Changing the topic is not answering it."
-snark: "Now go ask the question again."
+snark: "Anyway, the real problem is email."
 examples:
   - wrong: "\"Our error rate is up.\" \"Well, the competition's site was down all week.\""
     right: "\"Yes—why is our error rate up?\""

@@ -25,8 +25,11 @@ eleventyComputed:
     {% for peeve in group.items %}
     <li class="peeve-list__item">
       <a class="peeve-list__link" href="{{ peeve.url }}">
+        {# Same shape as the index listing, heading level aside. The label span
+           is not needed here (no search on hubs) but the two loops have to stay
+           interchangeable. #}
         <h2 class="peeve-list__title">
-          {{ peeve.data.title | smartquotes }}
+          <span class="peeve-list__label">{{ peeve.data.title | smartquotes }}</span>
           <span class="peeve-list__slug">omgstop.org{{ peeve.url | prettyUrl }}</span>
         </h2>
         {% if peeve.data.summary %}

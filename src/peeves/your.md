@@ -4,7 +4,7 @@ category: Grammar
 order: 10
 summary: "Two words. One is ownership, one is a contraction. You are mixing them."
 rule: "<em>You're</em> = you are. <em>Your</em> = belongs to you."
-snark: "Now go check your last three messages."
+snark: "Now go check you're last three messages."
 aliases:
   - youre
 examples:

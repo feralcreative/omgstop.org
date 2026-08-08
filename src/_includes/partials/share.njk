@@ -1,0 +1,21 @@
+{# The whole site exists so you can send someone a URL. Up to now the page did
+   not help you get one.
+
+   No URL or title in the markup: site.js reads both out of <link rel=canonical>
+   and <meta property="og:title">, which base.njk already emits correctly and
+   already runs through smartquotes. Repeating them here would be a second copy
+   to keep in sync and a straight-vs-curly quote trap in a data- attribute. #}
+<div class="share">
+  <p class="share__label">Send it to them</p>
+  <div class="share__actions">
+    {# aria-label is fixed so the accessible name never changes under the
+       reader; only the visible span swaps to the confirmation. #}
+    <button class="share__button" type="button" data-copy aria-label="Copy link">
+      <span data-copy-label>Copy link</span>
+    </button>
+    {# Unhidden only where navigator.share exists—a button that does nothing is
+       worse than no button. #}
+    <button class="share__button" type="button" data-share hidden>Share</button>
+  </div>
+  <span class="share__status visually-hidden" role="status"></span>
+</div>

@@ -4,7 +4,7 @@ category: Spelling
 order: 43
 summary: "One C, two Ss. Not the other way round."
 rule: "One <b>C</b>ollar, two <b>S</b>leeves."
-snark: "Now go count your collars and sleeves."
+snark: "Not strictly neccessary, but here we are."
 aliases:
   - neccessary
 examples:

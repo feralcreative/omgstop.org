@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 130
 summary: "You discredited them before they opened their mouth."
 rule: "Pre-loading the audience against someone isn't an <em>argument</em> against what they say."
-snark: "Now go let them speak."
+snark: "Before you read the next one, know that the author swears."
 examples:
   - wrong: "\"Before Sam speaks, remember he's been wrong before.\""
     right: "\"Let's hear it and judge the proposal.\""

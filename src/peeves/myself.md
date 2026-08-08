@@ -4,7 +4,7 @@ category: Grammar
 order: 17
 summary: "\"Myself\" is not a fancier \"me.\" It is not a politeness upgrade."
 rule: "Drop the other person. Whichever of <em>I</em> or <em>me</em> still sounds right is correct."
-snark: "Now go take yourself out of that sentence."
+snark: "Now go send the corrected version to Dave and myself."
 aliases:
   - between-you-and-i
   - me-vs-i

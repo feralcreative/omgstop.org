@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 73
 summary: "Piqued. Not peaked, not peeked. Three homophones, one right answer."
 rule: "<em>Pique</em> = to provoke or stimulate."
-snark: "Now go get pricked by an idea."
+snark: "Hope that peaked your interest."
 aliases:
   - peaked-my-interest
   - peak-my-interest

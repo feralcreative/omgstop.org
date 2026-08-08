@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 118
 summary: "You met the standard. They raised it."
 rule: "If the bar moves every time it's cleared, it was never a bar."
-snark: "Now go write the standard down first."
+snark: "Fine, you learned it. Now do it under pressure."
 examples:
   - wrong: "\"Show me one benchmark.\" \"Here.\" \"Well, one benchmark proves nothing.\""
     right: "\"What would actually change your mind? Say it now.\""

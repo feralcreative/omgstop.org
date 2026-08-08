@@ -130,6 +130,35 @@ a:hover {
 }
 
 /* ---------------------------------------------------------------------------
+   Progressive enhancement
+   base.njk sets .js on <html> from an inline script in the head, before first
+   paint. Controls that only work with scripting start hidden and are revealed
+   by that class, so with JS off they are absent rather than present and dead—
+   and because the class lands before the first frame, revealing them costs no
+   layout shift.
+   --------------------------------------------------------------------------- */
+
+.share,
+.toolbar {
+  display: none;
+}
+
+.js .share {
+  display: block;
+}
+
+.js .toolbar {
+  display: block;
+}
+
+/* The filter toggles rows and sections with the hidden attribute. Anything
+   that sets display on those elements would silently outrank the UA default
+   for [hidden], so state the intent once here. */
+[hidden] {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------------------
    Masthead + colophon
    --------------------------------------------------------------------------- */
 
@@ -492,8 +521,140 @@ a:hover {
 }
 
 /* ---------------------------------------------------------------------------
+   Share
+   The point of the whole site is sending someone the URL, so this sits
+   directly under the sign-off rather than in the footer. Hidden until
+   base.njk's inline script sets .js—see the JS-only section below.
+   --------------------------------------------------------------------------- */
+
+.share {
+  margin-top: 2.5rem;
+}
+
+.share__label {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.share__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Deliberately the same object as .button—this is the same kind of action, and
+   a second button style would be a second thing to keep in sync. */
+.share__button {
+  padding: 0.6rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.share__button:hover {
+  border-color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------------
    Index
    --------------------------------------------------------------------------- */
+
+/* Search plus category chips. Filtering hides rows in place rather than
+   re-rendering a result list, so the grouping stays put and nothing reflows
+   beyond the rows that left. */
+.toolbar {
+  margin-top: 2.5rem;
+}
+
+.toolbar__input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.toolbar__input::placeholder {
+  color: var(--muted);
+}
+
+.toolbar__input:focus {
+  border-color: var(--accent);
+}
+
+.toolbar__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/* Same pill as .related__list a. Chips and related links are both "a small
+   thing you tap to go sideways", so they should not look like two ideas. */
+.toolbar__chip {
+  padding: 0.35rem 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.toolbar__chip:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* State lives in the attribute the assistive tech already reads, not in a
+   parallel class that could disagree with it. */
+/* --bg rather than #fff: the dark accent is a much lighter red, and white on
+   it drops to about 2.6:1. Flipping to the page background keeps the label
+   readable in both themes without a second override. */
+.toolbar__chip[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.toolbar__chip[aria-pressed="true"]:hover {
+  color: var(--bg);
+}
+
+.toolbar__count {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
+.toolbar__status {
+  margin: 0.75rem 0 0;
+  min-height: 1.5rem;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+}
+
+/* The search hit. The UA default is a yellow block, which is illegible on the
+   dark palette and looks nothing like the rest of the page. */
+mark {
+  background: transparent;
+  color: var(--accent);
+  font-weight: 700;
+}
 
 .home {
   max-width: var(--measure);
@@ -654,8 +815,16 @@ a:hover {
 
   .masthead,
   .peeve__nav,
+  .share,
+  .toolbar,
   .skip-link {
     display: none;
+  }
+
+  //@ Print: a highlight is a screen affordance, not part of the entry
+  mark {
+    color: inherit;
+    font-weight: inherit;
   }
 
   .rule {

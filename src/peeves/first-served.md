@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 78
 summary: "Served. The people are being served, not serving."
 rule: "First to come, first to be <em>served</em>."
-snark: "Now go put the D back."
+snark: "First come, first serve."
 aliases:
   - first-serve
   - first-come-first-serve

@@ -4,7 +4,7 @@ category: Grammar
 order: 25
 summary: "One is a nice thing you say. One is a thing that completes another."
 rule: "<em>Compl<b>i</b>ment</em> = praise. <em>Compl<b>e</b>ment</em> = completes."
-snark: "Now go pay someone a real one."
+snark: "Take that as a complement."
 aliases:
   - compliment
 examples:

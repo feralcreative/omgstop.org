@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 131
 summary: "The truth is not automatically halfway between two positions."
 rule: "A compromise between a fact and a falsehood is just a <em>smaller</em> falsehood."
-snark: "Now go weigh it instead of splitting it."
+snark: "The truth is somewhere between this page and being wrong."
 aliases:
   - false-compromise
 examples:

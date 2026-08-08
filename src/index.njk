@@ -12,15 +12,46 @@ eleventyExcludeFromCollections: true
 
   {% set groups = collections.peevesByCategory %}
   {% if groups.length %}
+    {# Hidden until site.js adds .js to <html>—with scripting off the full list
+       below is still the whole page, and a dead search box is not. #}
+    <div class="toolbar">
+      <label class="visually-hidden" for="q">Search</label>
+      <input
+        class="toolbar__input"
+        id="q"
+        type="search"
+        autocomplete="off"
+        placeholder="Search {{ collections.peeves.length }} of them"
+      />
+      {# Buttons with aria-pressed, not links: nothing navigates. Counts are the
+         static totals—recomputing them per keystroke reads as jitter. #}
+      <div class="toolbar__chips" role="group" aria-label="Filter by category">
+        <button class="toolbar__chip" type="button" data-cat="all" aria-pressed="true">
+          All <span class="toolbar__count">{{ collections.peeves.length }}</span>
+        </button>
+        {% for group in groups %}
+        <button class="toolbar__chip" type="button" data-cat="{{ group.slug }}" aria-pressed="false">
+          {{ group.heading }} <span class="toolbar__count">{{ group.items.length }}</span>
+        </button>
+        {% endfor %}
+      </div>
+      <p class="toolbar__status" role="status"></p>
+    </div>
+
     {% for group in groups %}
-    <section class="group">
+    <section class="group" data-cat="{{ group.slug }}">
       <h2 class="group__name"><a href="/{{ group.slug }}/">{{ group.heading }}</a></h2>
       <ul class="peeve-list">
         {% for peeve in group.items %}
-        <li class="peeve-list__item">
+        {# data-aliases carries the misspellings that already power the redirects
+           in collections.allAliases. They are the thing people actually type,
+           and until now they were searchable nowhere. #}
+        <li class="peeve-list__item" data-aliases="{{ peeve.data.aliases | default([]) | join(" ") }}">
           <a class="peeve-list__link" href="{{ peeve.url }}">
             <h3 class="peeve-list__title">
-              {{ peeve.data.title | smartquotes }}
+              {# The title gets its own span so highlighting can rewrite a pure
+                 text leaf and leave the slug span alone. #}
+              <span class="peeve-list__label">{{ peeve.data.title | smartquotes }}</span>
               <span class="peeve-list__slug">omgstop.org{{ peeve.url | prettyUrl }}</span>
             </h3>
             {% if peeve.data.summary %}
@@ -32,6 +63,8 @@ eleventyExcludeFromCollections: true
       </ul>
     </section>
     {% endfor %}
+
+    <p class="home__empty" data-empty hidden>Nothing. Either you spelled it wrong or nobody has written it yet.</p>
   {% else %}
   <p class="home__empty">Nothing yet. Give it a week.</p>
   {% endif %}

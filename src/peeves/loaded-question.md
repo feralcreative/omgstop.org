@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 119
 summary: "There is an assumption smuggled into that question."
 rule: "A question that can't be answered without conceding something isn't a <em>question</em>."
-snark: "Now go reject the premise."
+snark: "So when did you stop arguing in bad faith?"
 examples:
   - wrong: "\"Why does your team keep missing deadlines?\""
     right: "\"Are we missing deadlines? Let's look.\""

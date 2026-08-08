@@ -4,7 +4,7 @@ category: Spelling
 order: 44
 summary: "I before E, except after C. This is the actual case the rule was written for."
 rule: "<em>Rec<b>ei</b>ve</em>—E before I, because it follows a C."
-snark: "Now go trust the rule for once."
+snark: "You will recieve no further warnings."
 aliases:
   - recieve
 examples:

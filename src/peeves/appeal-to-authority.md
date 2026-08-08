@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 104
 summary: "Someone important said it. That still is not evidence."
 rule: "Experts are worth listening to. Being an expert is not the same as being <em>right</em>."
-snark: "Now go ask for the evidence."
+snark: "A professor said so, which settles it."
 examples:
   - wrong: "\"A Nobel laureate said so.\""
     right: "\"What's the evidence they're relying on?\""

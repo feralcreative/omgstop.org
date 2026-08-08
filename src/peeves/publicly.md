@@ -4,7 +4,7 @@ category: Spelling
 order: 48
 summary: "No AL. Publicly is the one adverb that breaks the pattern."
 rule: "<em>Public</em> + <em>ly</em>. Nothing in between."
-snark: "Now go leave out the A."
+snark: "Now go be wrong publically somewhere else."
 aliases:
   - publically
 examples:

@@ -4,7 +4,7 @@ category: Mangled phrases
 order: 74
 summary: "Seated, not seeded. Nothing was planted."
 rule: "<em>Deep-seated</em>—set deeply in place, like something seated far down."
-snark: "Now go sit with that."
+snark: "This one is pretty deep seeded."
 aliases:
   - deep-seeded
 examples:

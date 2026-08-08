@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 116
 summary: "You do it too. My argument is still standing."
 rule: "Hypocrisy makes someone a hypocrite. It does not make them <em>wrong</em>."
-snark: "Now go answer the point."
+snark: "This page has typos, so it cannot tell you anything."
 aliases:
   - whataboutism
 examples:

@@ -51,6 +51,13 @@
 
     <link rel="stylesheet" href="/css/style.css" />
 
+    {# Render-blocking on purpose. Every JS-only control is display:none until
+       this lands, so the share row and the toolbar are never painted and then
+       taken away. One line before first paint buys zero layout shift. #}
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+
     {% include "partials/schema.njk" %}
     {%- include "partials/analytics.njk" %}
   </head>
@@ -70,5 +77,10 @@
         <a href="/">All of them</a> · Somebody had to say it.
       </p>
     </footer>
+
+    {# One file for the whole site rather than one per feature: it self-detects
+       what is on the page, and a single request stays cached across every
+       entry someone reads in a row. #}
+    <script src="/js/site.js" defer></script>
   </body>
 </html>

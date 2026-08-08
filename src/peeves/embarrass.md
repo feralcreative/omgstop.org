@@ -4,7 +4,7 @@ category: Spelling
 order: 49
 summary: "Two Rs, two Ss. Double everything."
 rule: "<em>Embarrass</em>: two <b>R</b>s, two <b>S</b>s."
-snark: "Now go double everything."
+snark: "Try not to embarass yourself again."
 aliases:
   - embarass
 examples:

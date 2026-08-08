@@ -4,7 +4,7 @@ category: Logical fallacies
 order: 132
 summary: "You defended the modest claim and then went back to the bold one."
 rule: "Retreating to an easy claim under pressure doesn't establish the <em>hard</em> one."
-snark: "Now go pin the claim down."
+snark: "I only meant that people should think clearly, obviously."
 examples:
   - wrong: "\"This changes everything.\" \"Evidence?\" \"I'm only saying it's interesting.\" (later) \"As I said, it changes everything.\""
     right: "\"Which claim are you defending? Let's settle that one.\""
