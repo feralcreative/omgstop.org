@@ -88,7 +88,7 @@ function card({ title, summary, category, snark }) {
   const titleSize = titleLines.length > 2 ? 74 : titleLines.length > 1 ? 90 : 104;
   const titleLead = titleSize * 1.04;
 
-  // Fixed start, growing downward — an earlier version centred the title block,
+  // Fixed start, growing downward—an earlier version centred the title block,
   // which pushed tall titles up into the category label.
   const TITLE_TOP = 274;
   const titleBottom = TITLE_TOP + (titleLines.length - 1) * titleLead;
@@ -144,7 +144,7 @@ const fontFiles = fs
   .map((f) => path.join(FONTS, f));
 
 if (!fontFiles.length) {
-  console.error("No fonts in utils/og/fonts — cards would render in a fallback face.");
+  console.error("No fonts in utils/og/fonts—cards would render in a fallback face.");
   process.exit(1);
 }
 

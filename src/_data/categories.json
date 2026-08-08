@@ -5,7 +5,7 @@
     "heading": "Grammar",
     "title": "Common grammar mistakes",
     "summary": "Word pairs people swap at random. Each one has a test that takes two seconds.",
-    "intro": "These are the ones where both spellings are real words, correctly spelled, so nothing gets underlined and the mistake ships. Spellcheck cannot help you here — the only fix is knowing which is which, and every entry below has a test that settles it in about two seconds."
+    "intro": "These are the ones where both spellings are real words, correctly spelled, so nothing gets underlined and the mistake ships. Spellcheck cannot help you here—the only fix is knowing which is which, and every entry below has a test that settles it in about two seconds."
   },
   "Spelling": {
     "slug": "spelling",
@@ -13,7 +13,7 @@
     "heading": "Spelling",
     "title": "Commonly misspelled words",
     "summary": "The words that beat everyone. Each one has a mnemonic that makes it stick.",
-    "intro": "Every word here shows up near the top of published misspelling rankings, and every one has a trick that makes it permanent — a rat in separate, one collar and two sleeves in necessary. Learn the trick once and you stop needing to look it up."
+    "intro": "Every word here shows up near the top of published misspelling rankings, and every one has a trick that makes it permanent—a rat in separate, one collar and two sleeves in necessary. Learn the trick once and you stop needing to look it up."
   },
   "Mangled phrases": {
     "slug": "phrases",
@@ -21,7 +21,7 @@
     "heading": "Mangled phrases",
     "title": "Phrases people get wrong",
     "summary": "Idioms reshaped into words that almost make sense. Mostly harmless out loud, unmissable in writing.",
-    "intro": "Most of these are eggcorns: a phrase you have only ever heard, rebuilt out of words you already know. The substitutions are usually reasonable — deep-seeded really does sound like it means something — which is exactly why they spread. They just survive speech far better than they survive print."
+    "intro": "Most of these are eggcorns: a phrase you have only ever heard, rebuilt out of words you already know. The substitutions are usually reasonable—deep-seeded really does sound like it means something—which is exactly why they spread. They just survive speech far better than they survive print."
   },
   "Logical fallacies": {
     "slug": "fallacies",

@@ -3,7 +3,7 @@ layout: layouts/base.njk
 ---
 
 {# Fallacy examples are quoted arguments, not misspellings, so they get a
-   different treatment for the "wrong" line — see .peeve--argument in the CSS. #}
+   different treatment for the "wrong" line—see .peeve--argument in the CSS. #}
 <article class="peeve{% if category == 'Logical fallacies' %} peeve--argument{% endif %}">
   <header class="peeve__head">
     {% if category %}<p class="peeve__eyebrow"><a href="/{{ categories[category].slug }}/">{{ categories[category].heading }}</a></p>{% endif %}

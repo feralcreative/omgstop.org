@@ -14,7 +14,7 @@ export function smartquotes(input) {
       if (i % 2) return chunk; // odd chunks are the tags themselves
       return (
         chunk
-          // Elisions and decades first — '90s, 'em, 'til — else the
+          // Elisions and decades first—'90s, 'em, 'til—else the
           // opening-single rule below would treat them as an open quote.
           .replace(/'(?=\d{2}s\b)/g, "’")
           .replace(/(^|[\s([{])'(?=(?:em|til|tis|round)\b)/gi, "$1’")

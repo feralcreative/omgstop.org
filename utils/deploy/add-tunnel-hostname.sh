@@ -48,7 +48,7 @@ require_cmd curl "curl is required."
 require_cmd jq   "Install with 'brew install jq'."
 require_cmd ssh  "OpenSSH client is required."
 
-[ -f "$PROJECT_ROOT/.env" ] || { err "No .env — copy .env.example and add your token."; exit 1; }
+[ -f "$PROJECT_ROOT/.env" ] || { err "No .env—copy .env.example and add your token."; exit 1; }
 set -a; source "$PROJECT_ROOT/.env"; set +a
 
 TOKEN="${CLOUDFLARE_TUNNEL_API_TOKEN:-${CLOUDFLARE_API_TOKEN:-}}"
@@ -91,7 +91,7 @@ ok "Tunnel ${TUNNEL_ID}"
 # Cloudflare has two kinds of API token, and they verify at different endpoints.
 # An ACCOUNT-owned token (Manage Account → API Tokens) returns a flat
 # "[1000] Invalid API Token" from /user/tokens/verify even when it is perfectly
-# valid and carries every permission needed — that endpoint only understands
+# valid and carries every permission needed—that endpoint only understands
 # USER-owned tokens (My Profile → API Tokens). An earlier version of this script
 # checked only /user/tokens/verify and rejected a working token on that basis.
 # Try the account endpoint first, fall back to the user one.

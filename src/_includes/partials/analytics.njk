@@ -2,11 +2,11 @@
 
     Two guards:
 
-    1. `site.analyticsId` — the measurement ID lives in src/_data/site.json, not
+    1. `site.analyticsId`—the measurement ID lives in src/_data/site.json, not
        inline here, so there is one place to change it and no risk of a stale
        copy in a second template.
 
-    2. `runMode == "build"` — `npm run dev` runs Eleventy in "serve" mode, so
+    2. `runMode == "build"`—`npm run dev` runs Eleventy in "serve" mode, so
        localhost never fires a hit. Without this, every save during a styling
        session lands in the property as real traffic from your own machine, and
        the first week of data is mostly you.
