@@ -78,6 +78,36 @@ It finds the vhost by its document root, drops `nginx-user.conf` into the `user.
 
 Without this the site still works, but you get DSM's default 404 page, no security or cache headers, and a 301 hop on `/less`.
 
+### 4b. Reloading without a password (optional)
+
+The rsync deploy never needs sudo. Only the **nginx config** does, and that changes rarely—when `utils/deploy/nginx-user.conf` is edited, not on every deploy. Typing the password a few times a year is a perfectly good answer, and it is the default.
+
+If you want it unattended, **do not put your DSM password in a file.** That one password owns this NAS: 22 sites, Surveillance Station, Home Assistant, every container. Putting it in `.env` trades a rare prompt for a permanent plaintext copy of the keys to everything, sitting next to a git repo.
+
+The right move is to need no password at all, for exactly one operation. Run these once on the NAS:
+
+```bash
+ssh -p 33725 ziad@nas.feralcreative.co "cat > /tmp/omgstop-nginx-reload" < utils/deploy/nas-omgstop-nginx-reload.sh
+```
+
+```bash
+ssh -t -p 33725 ziad@nas.feralcreative.co "sudo install -m 755 -o root -g root /tmp/omgstop-nginx-reload /usr/local/bin/omgstop-nginx-reload && rm -f /tmp/omgstop-nginx-reload"
+```
+
+```bash
+ssh -t -p 33725 ziad@nas.feralcreative.co "echo 'ziad ALL=(root) NOPASSWD: /usr/local/bin/omgstop-nginx-reload' | sudo tee /etc/sudoers.d/omgstop >/dev/null && sudo chmod 440 /etc/sudoers.d/omgstop && sudo visudo -c"
+```
+
+`visudo -c` at the end is not optional—a malformed sudoers file can lock you out of sudo entirely, and this is the moment to catch it. If it does not print `parsed OK`, delete `/etc/sudoers.d/omgstop` in that same session, before closing it.
+
+After that, `./utils/deploy/install-nginx-conf.sh` detects the wrapper and runs unattended. Without it, the script falls back to prompting, so nothing breaks either way.
+
+**Why a wrapper and not `NOPASSWD` on the commands themselves.** The tempting version is to whitelist `cp`, `chown`, `chmod`, `synow3tool` and `nginx`. Don't. `NOPASSWD: /bin/cp` means "copy any file anywhere as root"—that is passwordless root with extra steps, and it would let anything running as your account overwrite `/etc/shadow`. The wrapper takes no arguments and is owned by root, so what it can do is fixed and you cannot edit it.
+
+**The residual risk, stated plainly.** The wrapper installs from `/tmp/omgstop-user.conf`, which your account can write. So anything running as `ziad` could put arbitrary *nginx config* live without the password. `nginx -t` stops that from breaking the server, but a valid config can still expose a path you did not intend. That is much smaller than passwordless `cp`, and far smaller than your DSM password in a file—but it is not zero, and it is the trade you are making.
+
+**Two Synology caveats.** DSM upgrades have been known to reset `/etc/sudoers.d`, so if the reload starts prompting again after an update, reapply the third command. And `/usr/local/bin` survives updates but is not backed up by Hyper Backup by default.
+
 ### 5. Add the tunnel hostname
 
 In the Cloudflare Zero Trust dashboard, under the tunnel serving this NAS, add a public hostname for `omgstop.org` pointing at `http://localhost:80`. Cloudflare creates the DNS record itself, so there is no separate A/CNAME step.

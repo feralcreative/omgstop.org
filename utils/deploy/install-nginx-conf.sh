@@ -102,8 +102,21 @@ ssh -p "$SSH_PORT" "${SSH_USER}@${HOST}" "cat > /tmp/omgstop-user.conf" < "$CONF
 ok "Uploaded to /tmp/omgstop-user.conf"
 
 echo ""
-warn "The next step needs sudo on the NAS. Enter your DSM password when asked."
-echo ""
+# If the root-owned wrapper is installed and sudoers grants it NOPASSWD, the
+# whole thing runs unattended. `sudo -n` fails immediately rather than
+# prompting, so this probe is safe to run either way.
+if ssh -p "$SSH_PORT" "${SSH_USER}@${HOST}" \
+     "sudo -n /usr/local/bin/omgstop-nginx-reload >/dev/null 2>&1 <<< ''" 2>/dev/null; then
+  ok "Reloaded via the passwordless wrapper (no prompt needed)"
+  PASSWORDLESS=1
+else
+  PASSWORDLESS=""
+  warn "No passwordless wrapper—falling back to an interactive sudo."
+  warn "To set it up once, see docs/DEPLOYMENT.md → Reloading without a password."
+  echo ""
+fi
+
+if [ -z "$PASSWORDLESS" ]; then
 
 # -t for a TTY so sudo can prompt.
 #
@@ -113,7 +126,7 @@ echo ""
 # reported success while nginx carried on serving the old config. The file was
 # on disk, the site was not using it, and nothing said so.
 #
-# Reload is `synow3tool --deploy-hup` — the DSM-sanctioned regenerate-and-HUP.
+# Reload is `synow3tool --deploy-hup`—the DSM-sanctioned regenerate-and-HUP.
 # synosystemctl/synoservice are not the right tools here. Validate against
 # nginx.conf.run (what actually gets loaded) BEFORE the HUP: a bad config that
 # reaches a reload takes every other site on this NAS down with it.
@@ -133,6 +146,7 @@ ssh -t -p "$SSH_PORT" "${SSH_USER}@${HOST}" "
   sudo /usr/syno/bin/synow3tool --deploy-hup
   echo 'reload command completed'
 "
+fi
 
 # Trust nothing. Prove the running server actually picked it up, because the
 # failure mode above was a script that said 'reloaded' and meant nothing.
