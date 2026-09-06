@@ -3,11 +3,11 @@ title: "appeal to nature"
 category: Logical fallacies
 order: 105
 summary: "It's natural, therefore it's good. Hemlock is natural."
-rule: "\"Natural\" describes where something <em>came from</em>, not whether it's good for you."
-snark: "Nobody is taught to speak, so whatever you say is correct."
+rule: '"Natural" describes where something <em>came from</em>, not whether it''s good for you.'
+snark: "This page is all-natural, organic, and GMO free."
 examples:
-  - wrong: "\"It's all-natural, so it's safer.\""
-    right: "\"What does the safety data say?\""
+  - wrong: '"It''s all-natural, so it''s safer."'
+    right: '"What does the safety data say?"'
     note: "Nature produces botulism, radon, and hurricanes. It isn't on your side."
 ---
 

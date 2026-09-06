@@ -8,12 +8,14 @@ Built with [Eleventy](https://www.11ty.dev/), hosted on the Synology NAS via Web
 
 ```bash
 npm install
-npm run dev      # http://localhost:8066
+npm start        # http://localhost:8066, opens in your browser
 ```
 
 | Script | What it does |
 | --- | --- |
-| `npm run dev` | Eleventy dev server on port 8066, watching `src/` including SCSS |
+| `npm start` | Eleventy dev server on port 8066, watching `src/` including SCSS, and opens a browser once it answers |
+| `npm run start:no-open` | The same without the browser. `OPEN_BROWSER=0 npm start` does the same thing |
+| `npm run dev` | Just the dev server, no opener |
 | `npm run build` | Builds the static site into `_site/` |
 | `npm run clean` | Deletes `_site/` |
 | `npm run deploy` | Runs `utils/deploy/prod.sh` (build + rsync to the NAS) |
@@ -43,6 +45,10 @@ src/
 utils/deploy/              local deploy path (see docs/DEPLOYMENT.md)
 .github/workflows/         CI deploy path (same target, same config files)
 ```
+
+## Working on this with an agent
+
+[AGENTS.md](AGENTS.md) is the operating manual: commands, prohibitions, conventions, and the traps. `CLAUDE.md` is a one-line pointer at it so Claude Code and every other agent read the same thing.
 
 ## Deploying
 

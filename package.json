@@ -9,6 +9,8 @@
     "node": ">=20"
   },
   "scripts": {
+    "start": "node utils/open-when-ready.js & eleventy --serve --port=8066",
+    "start:no-open": "eleventy --serve --port=8066",
     "build": "node utils/gen-peeve-list.js && eleventy && node utils/og/generate.js",
     "dev": "eleventy --serve --port=8066",
     "clean": "rm -rf _site",
