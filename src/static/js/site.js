@@ -325,8 +325,51 @@
     apply();
   }
 
+  /* ---------------------------------------------------------------------------
+     Random entry
+     --------------------------------------------------------------------------- */
+
+  function initRandom(root) {
+    var script = root.querySelector("[data-rando-index]");
+    var button = root.querySelector("[data-rando-go]");
+    var urls;
+    var here;
+    var pool;
+
+    // The CSS reveals this the moment `.js` lands, so anything that stops the
+    // button working has to take it back off the page—otherwise a broken index
+    // ships a big red button that does nothing.
+    function bail() {
+      root.hidden = true;
+    }
+
+    if (!script || !button) return bail();
+
+    // Every peeve URL, emitted by partials/random.njk.
+    try {
+      urls = JSON.parse(script.textContent);
+    } catch (error) {
+      return bail();
+    }
+    if (!urls || !urls.length) return bail();
+
+    // Landing back on the entry you are already reading looks like the button
+    // is broken. Drop it from the pool once, here, rather than re-rolling.
+    here = location.pathname;
+    pool = urls.filter(function (url) {
+      return url !== here;
+    });
+    if (!pool.length) pool = urls;
+
+    button.addEventListener("click", function () {
+      window.location.href = pool[Math.floor(Math.random() * pool.length)];
+    });
+  }
+
   var share = document.querySelector(".share");
   var toolbar = document.querySelector(".toolbar");
+  var rando = document.querySelector("[data-rando]");
   if (share) initShare(share);
   if (toolbar) initToolbar(toolbar);
+  if (rando) initRandom(rando);
 })();

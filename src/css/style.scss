@@ -17,6 +17,10 @@
   --right: #{t.$light-right};
   --shadow: #{t.$light-shadow};
 
+  /* Deliberately absent from the dark override below—see _tokens.scss. */
+  --tip-bg: #{t.$tip-bg};
+  --tip-ink: #{t.$tip-ink};
+
   --font-display: #{t.$font-display};
   --font-prose: #{t.$font-prose};
   --font-mono: #{t.$font-mono};
@@ -139,7 +143,8 @@ a:hover {
    --------------------------------------------------------------------------- */
 
 .share,
-.toolbar {
+.toolbar,
+.rando {
   display: none;
 }
 
@@ -149,6 +154,16 @@ a:hover {
 
 .js .toolbar {
   display: block;
+}
+
+.js .rando {
+  display: block;
+}
+
+/* The floating button sits over the foot of the page, so the page needs room
+   underneath it that only exists when the button does. */
+.js body {
+  padding-bottom: 8rem;
 }
 
 /* The filter toggles rows and sections with the hidden attribute. Anything
@@ -566,6 +581,118 @@ a:hover {
 }
 
 /* ---------------------------------------------------------------------------
+   Random button
+   Fixed bottom right on every page that uses base.njk. Three stacked faces
+   swapped by opacity rather than one swapped src, so no state has to fetch its
+   own artwork the first time it is entered. Hidden until .js—see Progressive
+   enhancement.
+   --------------------------------------------------------------------------- */
+
+.rando {
+  position: fixed;
+  right: var(--gutter);
+  bottom: var(--gutter);
+  z-index: 20;
+}
+
+.rando__button {
+  position: relative;
+  display: block;
+  width: 3.75rem;
+  height: 3.75rem;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+//@ Random button: room for the full size on anything wider than a phone
+@media (min-width: t.$bp-sm) {
+  .rando__button {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+}
+
+.rando__face {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* The default face is the one in flow and sets the button's height; the other
+   two stack on top of it. */
+.rando__face--hover,
+.rando__face--down {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.rando__button:hover .rando__face--hover,
+.rando__button:focus-visible .rando__face--hover {
+  opacity: 1;
+}
+
+/* :active implies :hover with a mouse, so the pressed face has to explicitly
+   put the hover face away rather than relying on paint order. */
+.rando__button:active .rando__face--hover {
+  opacity: 0;
+}
+
+.rando__button:active .rando__face--down {
+  opacity: 1;
+}
+
+.rando__tip {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 0.6rem);
+  padding: 0.3rem 0.55rem;
+  background: var(--tip-bg);
+  border-radius: 0.25rem;
+  color: var(--tip-ink);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 120ms ease;
+  pointer-events: none;
+}
+
+/* The nub pointing at the button. */
+.rando__tip::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 0;
+  height: 0;
+  margin-top: -0.25rem;
+  border-top: 0.25rem solid transparent;
+  border-bottom: 0.25rem solid transparent;
+  border-left: 0.3rem solid var(--tip-bg);
+}
+
+.rando__button:hover ~ .rando__tip,
+.rando__button:focus-visible ~ .rando__tip {
+  opacity: 1;
+}
+
+//@ Random button: a tooltip tied to hover has nothing to say on a touch screen
+@media (hover: none) {
+  .rando__tip {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
    Index
    --------------------------------------------------------------------------- */
 
@@ -815,10 +942,22 @@ mark {
 
   .masthead,
   .peeve__nav,
-  .share,
-  .toolbar,
   .skip-link {
     display: none;
+  }
+
+  /* The JS-only controls are revealed by `.js .x`, which outranks a bare `.x`
+     here whatever the source order—a media query adds nothing to specificity.
+     Match the selector rather than reaching for !important. */
+  .js .share,
+  .js .toolbar,
+  .js .rando {
+    display: none;
+  }
+
+  /* The floating button is gone on paper, and so is the room reserved for it. */
+  .js body {
+    padding-bottom: 0;
   }
 
   //@ Print: a highlight is a screen affordance, not part of the entry

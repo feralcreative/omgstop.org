@@ -1,0 +1,27 @@
+{# The floating random-entry button, bottom right of every page that uses this
+   layout. Hidden until base.njk's inline script sets .js—picking a random
+   destination needs scripting, and a button that does nothing is worse than no
+   button.
+
+   The three faces are stacked and all fetched with the page rather than swapped
+   through one `src` or a `background-image`: a state that has to fetch its own
+   artwork flashes empty the first time you hover it.
+
+   The index is a JSON block rather than something read out of the DOM because
+   this sits on entry pages too, where there is no listing to read. #}
+<div class="rando" data-rando>
+  <button class="rando__button" type="button" aria-describedby="rando-tip" data-rando-go>
+    <span class="visually-hidden">Go to a random entry</span>
+    <img class="rando__face" src="/images/button-default.svg" alt="" width="190" height="190" />
+    <img class="rando__face rando__face--hover" src="/images/button-hover.svg" alt="" width="190" height="190" />
+    <img class="rando__face rando__face--down" src="/images/button-down.svg" alt="" width="190" height="190" />
+  </button>
+  <span class="rando__tip" id="rando-tip" role="tooltip">Random</span>
+
+  {# `dump` does the JSON escaping and `safe` stops Nunjucks HTML-escaping the
+     quotes back out of it. The `<` replacement is what keeps a URL that ever
+     contains a tag from closing this script element early. #}
+  <script type="application/json" data-rando-index>
+[{% for peeve in collections.peeves %}{{ "," if not loop.first }}{{ peeve.url | dump | replace("<", "\\u003c") | safe }}{% endfor %}]
+  </script>
+</div>
