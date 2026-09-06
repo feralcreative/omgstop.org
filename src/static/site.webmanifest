@@ -1,7 +1,7 @@
 {
   "name": "OMG STOP",
   "short_name": "OMG STOP",
-  "description": "Things people keep getting wrong, explained once.",
+  "description": "You're doing it wrong.",
   "start_url": "/",
   "display": "browser",
   "background_color": "#faf9f6",

@@ -109,9 +109,7 @@ function card({ title, summary, category, snark }) {
     .map((l, i) => `<tspan x="80" dy="${i === 0 ? 0 : titleLead}">${esc(l)}</tspan>`)
     .join("");
 
-  const summaryTspans = summaryLines
-    .map((l, i) => `<tspan x="80" dy="${i === 0 ? 0 : 46}">${esc(l)}</tspan>`)
-    .join("");
+  const summaryTspans = summaryLines.map((l, i) => `<tspan x="80" dy="${i === 0 ? 0 : 46}">${esc(l)}</tspan>`).join("");
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <rect width="${W}" height="${H}" fill="${BG}"/>
@@ -121,7 +119,7 @@ function card({ title, summary, category, snark }) {
   <text x="192" y="120" font-family="Inter Display" font-weight="900" font-size="32" letter-spacing="4" fill="${ACCENT}">STOP</text>
 
   <text x="80" y="206" font-family="Inter" font-weight="400" font-size="24" letter-spacing="3.4" fill="${ACCENT}">${esc(
-    String(category || "").toUpperCase()
+    String(category || "").toUpperCase(),
   )}</text>
 
   <text x="80" y="${TITLE_TOP}" font-family="Inter Display" font-weight="900" font-size="${titleSize}" fill="${INK}" letter-spacing="-2">${titleTspans}</text>
@@ -130,7 +128,7 @@ function card({ title, summary, category, snark }) {
 ${
   showSnark
     ? `\n  <text x="80" y="${SNARK_Y}" font-family="Inter Display" font-weight="900" font-size="34" fill="${ACCENT}" letter-spacing="-0.5">${esc(
-        wrap(snark, 52)[0]
+        wrap(snark, 52)[0],
       )}</text>`
     : ""
 }
@@ -179,9 +177,7 @@ for (const file of files) {
 }
 
 // Category hub cards.
-const categories = JSON.parse(
-  fs.readFileSync(path.join(ROOT, "src", "_data", "categories.json"), "utf8")
-);
+const categories = JSON.parse(fs.readFileSync(path.join(ROOT, "src", "_data", "categories.json"), "utf8"));
 for (const [name, meta] of Object.entries(categories)) {
   const svg = card({
     title: plain(meta.title),
@@ -196,7 +192,7 @@ for (const [name, meta] of Object.entries(categories)) {
       font: { fontFiles, loadSystemFonts: false, defaultFontFamily: "Inter" },
     })
       .render()
-      .asPng()
+      .asPng(),
   );
 }
 console.log(`og: ${Object.keys(categories).length} category card(s)`);
@@ -204,7 +200,7 @@ console.log(`og: ${Object.keys(categories).length} category card(s)`);
 // Home card, used for / and as the fallback anywhere a page has no image.
 const homeSvg = card({
   title: "OMG STOP",
-  summary: "Things people keep getting wrong, explained once.",
+  summary: "You're doing it wrong.",
   category: "Grammar · Spelling · Phrases · Logic",
   snark: "Somebody had to say it.",
 });
@@ -215,7 +211,7 @@ fs.writeFileSync(
     font: { fontFiles, loadSystemFonts: false, defaultFontFamily: "Inter" },
   })
     .render()
-    .asPng()
+    .asPng(),
 );
 
 console.log(`og: ${written} card(s) + default → _site/og/`);
@@ -226,9 +222,7 @@ console.log(`og: ${written} card(s) + default → _site/og/`);
 // favicon source so they cannot drift from it.
 const faviconSvg = fs.readFileSync(path.join(ROOT, "src", "static", "favicon.svg"), "utf8");
 for (const size of [180, 192, 512]) {
-  const png = new Resvg(faviconSvg, { fitTo: { mode: "width", value: size } })
-    .render()
-    .asPng();
+  const png = new Resvg(faviconSvg, { fitTo: { mode: "width", value: size } }).render().asPng();
   fs.writeFileSync(path.join(ROOT, "_site", `icon-${size}.png`), png);
 }
 console.log("icons: 180, 192, 512 → _site/");
