@@ -261,6 +261,8 @@ Icon?
 **/*.syncthing*
 **/*.sync-conflict*
 _reference
+.journal*
+JOURNAL.md
 
 # ============================================================
 # END Ziad's boilerplate .gitignore
